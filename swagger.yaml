@@ -1,0 +1,79 @@
+# this is the description of the Europace Ereignisse API
+swagger: '2.0'
+info:
+  title: Ereignisse API
+  description: |
+   Öffentliche API um Ereignisse von Vorgängen und Anträgen zu lesen.
+  version: "0.0.1"
+host: "api.europace.de"
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+
+paths:
+  /ereignisse:
+    get:
+      summary: Alle Ereignisse
+      description: |
+        Gibt alle lesbaren Ereignisse zurück.
+      operationId: getAlleEreignisse
+      parameters:
+        - name: vorgangsNummer
+          in: query
+          description: Vorgangsnummer um nur Dokumente eines bestimmten Vorgangs zu erhalten.
+          required: false
+          type: string
+      responses:
+          200:
+            description: Eine Liste von Dokumenten
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Ereignis'
+          default:
+            description: Unerwarteter Fehler
+            schema:
+              $ref: '#/definitions/Error'
+      security:
+        - oauth2:
+          - "API"
+      tags:
+        - Ereignisse
+
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    tokenUrl: "https://api.europace.de/login"
+    flow: password
+    scopes:
+      API: Authorisation Scope für die gesamte API.
+
+definitions:
+  Ereignis:
+    description: |
+      Ein Ereignis.
+      TODO: Mehr Doku hier
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier des Ereignisses.
+
+  Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        statusMessage:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        traceId:
+          type: string
+      title: Error
