@@ -27,7 +27,7 @@ paths:
       description: >-
         Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
         erzeugt wurde.
-      operationId: getVorgang
+      operationId: getAlleEreignisse
       produces:
       - application/json;charset=UTF-8
       parameters:
