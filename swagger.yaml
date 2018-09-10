@@ -88,6 +88,28 @@ definitions:
         items:
           $ref: '#/definitions/Ereignis'
     title: Ereignisse
+  Partner:
+    type: "object"
+    properties:
+      partnerId:
+        type: "string"
+      nachname:
+        type: "string"
+      vorname:
+        type: "string"
+      email:
+        type: "string"
+      telefonnummer:
+        type: "string"
+      mobilTelefon:
+        type: "string"
+      fax:
+        type: "string"
+      firmierung:
+        type: "string"
+      _links:
+        $ref: "#/definitions/PartnerLinks"
+    title: "Partner"
   Ereignis:
     type: object
     properties:
@@ -95,30 +117,48 @@ definitions:
         type: string
         format: date-time
         description: Zeitpunkt des Ereignisses
-      akteur:
-        $ref: '#/definitions/Link'
+      quelle:
+        $ref: '#/definitions/Partner'
       meldung:
         type: string
         description: Beschreibung des Ereignisses
       ereignistyp:
         type: string
         enum:
-        - DOKUMENT
-        - STATUS
+        - DOKUMENTE
+        - STATUS_AENDERUNG
         - WIEDERVORLAGE
         - KOMMENTAR
-        - BEARBEITERWECHSEL
         - KOMMUNIKATION
         - HINWEIS
         - PRIORITAET
         - EIGENE_VORGANGSNUMMER
+      dokumente:
+        type: array
+        items:
+          $ref: '#/definitions/DokumenteLinks'
     title: Ereignis
+  DokumenteLinks:
+    properties:
+      name:
+        type: string
+      _links:
+        $ref: '#/definitions/DokumenteLink'
+  DokumenteLink:
+    type: object
+    properties:
+      download:
+        $ref: "#/definitions/Link"
+  PartnerLinks:
+    type: "object"
+    properties:
+      partner:
+        $ref: "#/definitions/Link"
+    title: "Links"
   Link:
     type: object
     properties:
       href:
-        type: string
-      type:
         type: string
     title: Link
   Error:
