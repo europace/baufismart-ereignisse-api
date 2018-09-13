@@ -27,7 +27,7 @@ paths:
       description: >-
         Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
         erzeugt wurde.
-      operationId: getAlleEreignisse
+      operationId: getEreignisseByVorgang
       produces:
       - application/json;charset=UTF-8
       parameters:
@@ -40,7 +40,9 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Ereignisse'
+            type: array
+            items:
+              $ref: '#/definitions/Ereignis'
         '401':
           description: Unauthorized
           schema:
@@ -72,6 +74,7 @@ paths:
       security:
       - oauth2:
         - API
+
 securityDefinitions:
   oauth2:
     type: oauth2
@@ -79,15 +82,8 @@ securityDefinitions:
     flow: password
     scopes:
       API: Authorisation Scope für die gesamte API.
+
 definitions:
-  Ereignisse:
-    type: object
-    properties:
-      ereignisse:
-        type: array
-        items:
-          $ref: '#/definitions/Ereignis'
-    title: Ereignisse
 
   Partner:
     type: "object"
@@ -116,7 +112,7 @@ definitions:
             description: URL zu den Kontaktdaten
           avatar:
             $ref: "#/definitions/Relation"
-            description: URL zum Avatar
+            description: URL zum Avatar Icon
     title: "Partner"
 
   Ereignis:
@@ -126,17 +122,17 @@ definitions:
         type: string
         description: Die Vorgangsnummer
       meldung:
-          type: string
-          description: Beschreibung des Ereignisses
+        type: string
+        description: Beschreibung des Ereignisses
       ereignistyp:
-            type: string
-            enum:
-            - DOKUMENTE
-            - STATUS_AENDERUNG
-            - WIEDERVORLAGE
-            - KOMMENTAR
-            - KOMMUNIKATION
-            - HINWEIS
+        type: string
+        enum:
+        - DOKUMENTE
+        - STATUS_AENDERUNG
+        - WIEDERVORLAGE
+        - KOMMENTAR
+        - KOMMUNIKATION
+        - HINWEIS
       zeitpunkt:
         type: string
         format: date-time
