@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: API für Ereignisse in BaufiSmart-Vorgängen.
-  version: '0.1.0'
+  version: '0.2.0'
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -27,7 +27,7 @@ paths:
       description: >-
         Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
         erzeugt wurde.
-      operationId: getAlleEreignisse
+      operationId: getEreignisseByVorgang
       produces:
       - application/json;charset=UTF-8
       parameters:
@@ -40,7 +40,9 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Ereignisse'
+            type: array
+            items:
+              $ref: '#/definitions/Ereignis'
         '401':
           description: Unauthorized
           schema:
@@ -72,6 +74,7 @@ paths:
       security:
       - oauth2:
         - API
+
 securityDefinitions:
   oauth2:
     type: oauth2
@@ -79,48 +82,94 @@ securityDefinitions:
     flow: password
     scopes:
       API: Authorisation Scope für die gesamte API.
+
 definitions:
-  Ereignisse:
-    type: object
+
+  Partner:
+    type: "object"
     properties:
-      ereignisse:
-        type: array
-        items:
-          $ref: '#/definitions/Ereignis'
-    title: Ereignisse
+      partnerId:
+        type: "string"
+      anrede:
+        type: "string"
+        enum:
+        - "FRAU"
+        - "HERR"
+      nachname:
+        type: "string"
+      vorname:
+        type: "string"
+      externePartnerId:
+        type: "string"
+      _links:
+        type: object
+        properties:
+          partner:
+            $ref: "#/definitions/Relation"
+            description: URL zum Partner
+          kontaktdaten:
+            $ref: "#/definitions/Relation"
+            description: URL zu den Kontaktdaten
+          avatar:
+            $ref: "#/definitions/Relation"
+            description: URL zum Avatar Icon
+    title: "Partner"
+
   Ereignis:
     type: object
     properties:
-      zeitpunkt:
+      vorgangsnummer:
         type: string
-        format: date-time
-        description: Zeitpunkt des Ereignisses
-      akteur:
-        $ref: '#/definitions/Link'
+        description: Die Vorgangsnummer
       meldung:
         type: string
         description: Beschreibung des Ereignisses
       ereignistyp:
         type: string
         enum:
-        - DOKUMENT
-        - STATUS
+        - DOKUMENTE
+        - STATUS_AENDERUNG
         - WIEDERVORLAGE
         - KOMMENTAR
-        - BEARBEITERWECHSEL
         - KOMMUNIKATION
         - HINWEIS
-        - PRIORITAET
-        - EIGENE_VORGANGSNUMMER
+      zeitpunkt:
+        type: string
+        format: date-time
+        description: Zeitpunkt des Ereignisses
+      quelle:
+        $ref: '#/definitions/Partner'
+      dokumente:
+        type: array
+        items:
+          $ref: '#/definitions/Dokumente'
     title: Ereignis
-  Link:
+
+  Dokumente:
+    type: object
+    properties:
+      name:
+        type: string
+      _links:
+        $ref: "#/definitions/DokumentenLink"
+
+  DokumentenLink:
+    type: object
+    properties:
+      download:
+        $ref: "#/definitions/Relation"
+
+  Relation:
     type: object
     properties:
       href:
         type: string
+        format: uri
+        description: A HAL Ref
       type:
         type: string
-    title: Link
+        description: Media-Type nach https://tools.ietf.org/html/rfc6838.
+
   Error:
     type: object
     properties:
