@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: API für Ereignisse in BaufiSmart-Vorgängen.
-  version: '0.2.0'
+  version: '0.3.0'
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -101,18 +101,6 @@ definitions:
         type: "string"
       externePartnerId:
         type: "string"
-      _links:
-        type: object
-        properties:
-          partner:
-            $ref: "#/definitions/Relation"
-            description: URL zum Partner
-          kontaktdaten:
-            $ref: "#/definitions/Relation"
-            description: URL zu den Kontaktdaten
-          avatar:
-            $ref: "#/definitions/Relation"
-            description: URL zum Avatar Icon
     title: "Partner"
 
   Ereignis:
@@ -156,9 +144,15 @@ definitions:
   DokumentenLink:
     type: object
     properties:
+      self:
+        $ref: "#/definitions/Relation"
+        description: Self relation
       download:
         $ref: "#/definitions/Relation"
-
+        description: URL zum Runterladen des Dokuments (intern)
+      publicDownload:
+        $ref: "#/definitions/Relation"
+        description: URL zum Runterladen des Dokuments (öffentlich)
   Relation:
     type: object
     properties:
