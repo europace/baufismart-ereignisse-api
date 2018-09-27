@@ -106,13 +106,13 @@ definitions:
   Ereignis:
     type: object
     properties:
-      vorgangsnummer:
+      vorgangsNummer:
         type: string
         description: Die Vorgangsnummer
       meldung:
         type: string
         description: Beschreibung des Ereignisses
-      ereignistyp:
+      typ:
         type: string
         enum:
         - DOKUMENTE
@@ -138,6 +138,12 @@ definitions:
     properties:
       name:
         type: string
+      geloescht:
+        type: boolean
+        description: |
+          Wenn ein Dokument nach DSGVO-Richtlinien gelöscht wurde, dann wird der Wert auf true gesetzt.
+          In diesem Fall werden keine Links ausgegeben. Für nicht gelöschte Dokumente ist dieser Wert nicht gesetzt.
+
       _links:
         $ref: "#/definitions/DokumentenLink"
 
