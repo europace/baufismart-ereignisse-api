@@ -1,7 +1,7 @@
 # ep-ereignisse-api
 Öffentliche API um Ereignisse von Vorgängen und Anträgen zu lesen
 
-##### Aktuelle Version: 0.3.0
+##### Aktuelle Version: 0.4.0
 
 * Initiale Definition
 
