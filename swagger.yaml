@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: API für Ereignisse in BaufiSmart-Vorgängen.
-  version: '0.3.0'
+  version: '0.4.0'
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -32,7 +32,7 @@ paths:
       - application/json;charset=UTF-8
       parameters:
       - name: vorgangsNummer
-        in: path
+        in: query
         description: Nummer des Vorgangs
         required: true
         type: string
