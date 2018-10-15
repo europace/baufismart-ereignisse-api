@@ -1,7 +1,7 @@
 # Ereignisse-API
 *Aktuelle Version: 1.0*
 
-Öffentliche API um Ereignisse von Vorgängen auszulesen
+Die Ereignisse-API liefert die Ereignisse eines Vorgangs inkl. Zeitpunkt, Typ, Ersteller, Text und ggf. verlinkter Dokumente zurück.
 
 ## Dokumentation
 Die API ist vollständig in Swagger definiert und steht im YAML-Format zur Verfügung. Für die Generierung eines Clients empfehlen wir Swagger Codegen.
@@ -20,7 +20,7 @@ curl -X GET \
 ```
 
 ### Authenifizierung
-Für das Nutzen der API ist ein gültiger Europace JWT-Token erforderlich, der als Bearer-Token im HTTP-Header=Authorization mitgegeben wird.
+Für das Nutzen der API ist ein gültiger Europace JWT-Token erforderlich, der als Bearer-Token im HTTP-Header=Authorization mitgegeben wird (siehe Beispiel).
 Wie man sich einen JWT-Token erstellt, erfährst du hier:
 [europace2-api/PEX-SSO-API.md at master · hypoport/europace2-api · GitHub](https://github.com/hypoport/europace2-api/blob/master/Partnermanagement/PEX-SSO-API.md)
 
