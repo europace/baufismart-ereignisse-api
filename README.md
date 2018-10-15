@@ -9,6 +9,10 @@ Die API ist vollst√§ndig in Swagger definiert und steht im YAML-Format zur Verf√
 * [Swagger.yaml](https://github.com/hypoport/ep-ereignisse-api/blob/master/swagger.yaml)
 * [Release Notes](https://github.com/hypoport/ep-ereignisse-api/releases)
 
+### API Docs
+
+[API Docs](https://ereignisse-api-2.api-docs.io/0.3.0/)
+
 ## First Steps
 Beispiel
 ```
