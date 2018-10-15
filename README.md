@@ -11,7 +11,7 @@ Die API ist vollst√§ndig in Swagger definiert und steht im YAML-Format zur Verf√
 
 ### API Docs
 
-[API Docs](https://ereignisse-api-2.api-docs.io/0.3.0/)
+[API Docs](https://ereignisse-api-3.api-docs.io/1.0/)
 
 ## First Steps
 Beispiel
