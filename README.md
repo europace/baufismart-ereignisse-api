@@ -7,7 +7,6 @@
 Die API ist vollständig in Swagger definiert und steht im YAML-Format zur Verfügung. Für die Generierung eines Clients empfehlen wir Swagger Codegen.
 
 * [Swagger.yaml](https://github.com/hypoport/ep-ereignisse-api/blob/master/swagger.yaml)
-* [interaktive Dokumentation](https://ereignisse-api.api-docs.io/0.3.0/ereignisse/alle-ereignisse-eines-vorgangs-abrufen)
 * [Release Notes](https://github.com/hypoport/ep-ereignisse-api/releases)
 
 ## First Steps
