@@ -1,9 +1,9 @@
-# Ereignisse-API
+# Baufismart Ereignisse-API
 *Aktuelle Version: 1.0*
 
 Die Ereignisse-API liefert die Ereignisse eines Vorgangs inkl. Zeitpunkt, Typ, Ersteller, Text und ggf. verlinkter Dokumente zurück.
 
-## Dokumentation
+# Dokumentation
 Die API ist vollständig in Swagger definiert und steht im YAML-Format zur Verfügung. Für die Generierung eines Clients empfehlen wir Swagger Codegen.
 
 * [Swagger.yaml](https://github.com/hypoport/ep-ereignisse-api/blob/master/swagger.yaml)
