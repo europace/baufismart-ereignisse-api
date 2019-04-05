@@ -3,7 +3,7 @@
 Die Ereignisse-API liefert die Ereignisse eines Vorgangs inkl. Zeitpunkt, Typ, Ersteller, Text und ggf. verlinkter Dokumente zurück.
 
 # Dokumentation
-*Aktuelle Version: 1.0.*
+*Aktuelle Version: 1.1.*
 
 Die API ist vollständig in Swagger definiert und steht im YAML-Format zur Verfügung. Für die Generierung eines Clients empfehlen wir Swagger Codegen.
 

@@ -109,14 +109,31 @@ definitions:
       vorgangsNummer:
         type: string
         description: Die Vorgangsnummer
+      antragsNummer:
+        type: string
+        description: Die Antragsnummer
       meldung:
         type: string
         description: Beschreibung des Ereignisses
       typ:
         type: string
+        description: |
+          Der Typ des Ereignisses. Der Typ 'STATUS_AENDERUNG' betrifft folgende Änderungen am Vorgang:
+                     * Angebot angenommen
+                     * Geprüftes Angebot nicht akzeptiert
+                     * Externe VorgangNummer gesetzt
+                     * Bearbeiter geändert
+                     * Kundenbetreuer geändert
+                     * Tippgeber geändert
+                     * Bearbeitungsdatum aktualisiert
+                     * Gegenangebot erstellt
+
+          Wenn der Typ 'DOKUMENTE' gesetzt ist, wird das Element 'dokumente'  mit ausgeliefert. Beim Typ 'ANTRAGSTATUS_AENDERUNG'
+          das Element 'antragsStatus'.
         enum:
         - DOKUMENTE
         - STATUS_AENDERUNG
+        - ANTRAGSTATUS_AENDERUNG
         - WIEDERVORLAGE
         - KOMMENTAR
         - KOMMUNIKATION
@@ -131,6 +148,9 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Dokumente'
+      antragsStatus:
+        $ref: '#/definitions/AntragsStatus'
+
     title: Ereignis
 
   Dokumente:
@@ -185,3 +205,46 @@ definitions:
       traceId:
         type: string
     title: Error
+
+  AntragsStatus:
+    type: "object"
+    description: Der Antragstatus wird beim Ereignis Typ 'ANTRAGSTATUS_AENDERUNG' ausgegeben
+    properties:
+      antragsteller:
+        type: "string"
+        description: "Willenserklärung des Antragstellers"
+        enum:
+        - "BEANTRAGT"
+        - "UNTERSCHRIEBEN"
+        - "NICHT_ANGENOMMEN"
+        - "WIDERRUFEN"
+      produktAnbieter:
+        type: "string"
+        description: "Willenserklärung des Produktanbieters"
+        enum:
+        - "NICHT_BEARBEITET"
+        - "UNTERSCHRIEBEN"
+        - "ABGELEHNT"
+        - "ZURUECKGESTELLT"
+      kommentar:
+        type: "string"
+      ablehnungsgrund:
+        type: "string"
+        description: "Ablehnungsgrund des Produktanbieters"
+        enum:
+        - "FINANZIELLE_SITUATION"
+        - "NEGATIV_MERKMAL"
+        - "WERTERMITTLUNG"
+        - "KRITERIEN"
+        - "UNTERLAGEN_UNVOLLSTAENDIG"
+        - "GEGENANGEBOT"
+        - "KEINE_ANGABE"
+      bearbeitungsFortschritt:
+        type: "string"
+        description: "Bearbeitungsfortschritt des Antrags nach beidseitiger Unterzeichnung"
+        enum:
+        - "NICHT_VON_PRODUKTANBIETER_BESTAETIGT"
+        - "VON_PRODUKTANBIETER_BESTAETIGT"
+        - "FREIGEGEBEN_FUER_SAMMELFORDERUNG"
+        - "PROVISION_IN_BEARBEITUNG"
+        - "PROVISON_AN_KUNDENBETREUER_VOLLSTAENDIG_AUSGEZAHLT"
