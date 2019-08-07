@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: API für Ereignisse in BaufiSmart-Vorgängen.
-  version: '1.1.1'
+  version: '1.2.0'
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -34,12 +34,6 @@ paths:
       - name: vorgangsNummer
         in: query
         description: Nummer des Vorgangs
-        required: false
-        type: string
-      - name: antragsNummer
-        in: query
-        description: Nummer des Antrages
-        required: false
         type: string
       responses:
         '200':
@@ -79,6 +73,128 @@ paths:
       security:
       - oauth2:
         - API
+  '/ereignisse/{vorgangsNummer}':
+    get:
+      tags:
+        - Vorgangsereignisse
+      summary: alle Ereignisse eines Vorgangs abrufen
+      description: >-
+        Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
+        erzeugt wurde.
+      operationId: getEreignisse
+      produces:
+        - application/json;charset=UTF-8
+      parameters:
+        - name: vorgangsNummer
+          in: path
+          description: Nummer des Vorgangs
+          type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ereignis'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '502':
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/Error'
+        '504':
+          description: Gateway Timeout
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+        - oauth2:
+            - API
+
+  '/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}':
+    get:
+      tags:
+        - Antragsereignisse
+      summary: alle Ereignisse eines Antrags abrufen
+      description: >-
+        Als Parameter wird die Vorgangsnummer, die Antragsnummer und die TeilAntragsnummer verwendet, die aus BaufiSmart
+        erzeugt wurde. Bsp: AB1234/1/2
+      operationId: getAntragsEreignisse
+      produces:
+        - application/json;charset=UTF-8
+      parameters:
+        - name: vorgangsNummer
+          in: path
+          description: Nummer des Vorgangs
+          type: string
+          required: true
+        - name: antragsNummer
+          in: path
+          description: Antragsnummer
+          type: string
+          required: true
+        - name: teilAntragsNummer
+          in: path
+          description: Teilantragsnummer
+          type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ereignis'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '502':
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/Error'
+        '504':
+          description: Gateway Timeout
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+        - oauth2:
+            - API
+
 
 securityDefinitions:
   oauth2:
