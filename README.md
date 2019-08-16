@@ -26,7 +26,7 @@ curl -X GET \
   -H 'cache-control: no-cache'
 ```
 
-Ereignisse zu einem Vorgang auslesen. Beispiel:
+Ereignisse zu einem Ereignis auslesen. Beispiel:
 
 ```
 curl -X GET \
