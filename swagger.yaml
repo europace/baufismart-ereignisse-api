@@ -8,8 +8,12 @@ info:
     url: http://www.europace2.de
     email: helpdesk@europace2.de
 tags:
-  - name: Ereignisse
-    description: Dieser Endpunkt repräsentiert die Vertriebssicht.
+  - name: Vorgangsereignisse
+    description: Diese Endpunkte repräsentieren die Vertriebssicht auf einen Baufismart Vorgang.
+  - name: Antragsereignisse
+    description: Diese Endpunkte repräsentieren des Kreditentscheidersicht auf einen Baufismart Antrag.
+  - name: Webhooks
+    description: Diese Endpunkte dienen der Konfiguration von Webhooks. Damit können sie über Ereignisänderungen direkt benachrichtigt werden.
 paths:
   /ereignisse:
     get:
@@ -234,7 +238,7 @@ paths:
     post:
       tags:
         - Webhooks
-      summary: Dieser Endpunkt ist work in progress und noch nicht Funktional. Erstellen der Ereignisbenachrichtigung.
+      summary: Dieser Endpunkt ist work in progress und noch nicht Funktional. Erstellen der Ereignisbenachrichtigung. Als Kreditentscheider werden Sie über Ereignisse zu Anträgen benachrichtigt.
       requestBody:
         required: true
         content:
@@ -252,12 +256,11 @@ paths:
               required:
                 - callbackUrl
                 - secret
-      callbacks:   # Callback definition
-        myEvent:   # Event name
-          '{$request.body#/callbackUrl}':   # The callback URL,
-                                            # Refers to the passed URL
+      callbacks:
+        ereignisUpdate:
+          '{$request.body#/callbackUrl}':
             post:  
-              requestBody:   # Contents of the callback message
+              requestBody:
                 required: true
                 content:
                   application/json;charset=UTF-8:
@@ -269,13 +272,13 @@ paths:
                   schema:
                     type: string
                   required: true
-                  description: HMAC aus Requestbody und {$request.body#/secret}
-              responses:   # Expected responses to the callback message
+                  description: 'HMAC aus Requestbody und {$request.body#/secret}'
+              responses:
                 '200':
-                  description: OK - Webhook
+                  description: OK - Ereignisänderung erfolgreich verarbeitet
       responses:
         '201':
-          description: Webhook created
+          description: Ereignisbenachrichtigung eingerichtet
       security:
         - oauth2:
             - API
@@ -285,7 +288,7 @@ paths:
       summary: Dieser Endpunkt ist work in progress und noch nicht Funktional. Löschen der Ereignisbenachrichtigung.
       responses:
         '200':
-          description: OK - Ereignisbenachrichtigungen werden eingestellt.
+          description: OK - Ereignisbenachrichtigung wurde gelöscht.
       security:
         - oauth2:
             - API
@@ -475,7 +478,7 @@ components:
           type: "string"
           description: >
             Datentyp, der beim Aufruf der resourceUrl zurückgegeben wird:
-              * 'ANTRAG_NACHRICHTEN' - resource Url zeigt auf Nachrichten Resource der Nachrichten API
+              * 'ANTRAG_NACHRICHTEN' - resource Url zeigt auf Nachrichten Resource der Nachrichten API. z.b.
           enum:
           - "ANTRAG_NACHRICHTEN"
 
