@@ -256,13 +256,20 @@ paths:
         myEvent:   # Event name
           '{$request.body#/callbackUrl}':   # The callback URL,
                                             # Refers to the passed URL
-            post:
+            post:  
               requestBody:   # Contents of the callback message
                 required: true
                 content:
                   application/json:
                     schema:
                       $ref: '#/components/schemas/EreignisUpdateBenachrichtigung'
+              parameters:
+                - name: X-EREIGNISSE-API-SIGNATURE
+                  in: header
+                  schema:
+                    type: string
+                  required: true
+                  description: HMAC aus Requestbody und {$request.body#/secret}
               responses:   # Expected responses to the callback message
                 '200':
                   description: OK - Webhook
