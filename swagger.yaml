@@ -230,6 +230,58 @@ paths:
       security:
         - oauth2:
             - API
+  /ereignisse/subscribe:
+    post:
+      tags:
+        - Webhooks
+      summary: Dieser Endpunkt ist work in progress und noch nicht Funktional. Erstellen der Ereignisbenachrichtigung.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                callbackUrl:   # Callback URL
+                  type: string
+                  format: uri
+                  example: https://myserver.com/send/callback/here
+                secret:
+                  type: string
+                  description: secret Token mit dem Ereignisänderungen-Requests signiert werden. Dadurch können Sie prüfen, das der Request von dieser Webhook Registrierung stammt.
+              required:
+                - callbackUrl
+                - secret
+      callbacks:   # Callback definition
+        myEvent:   # Event name
+          '{$request.body#/callbackUrl}':   # The callback URL,
+                                            # Refers to the passed URL
+            post:
+              requestBody:   # Contents of the callback message
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/EreignisUpdateBenachrichtigung'
+              responses:   # Expected responses to the callback message
+                '200':
+                  description: OK - Webhook
+      responses:
+        '201':
+          description: Webhook created
+      security:
+        - oauth2:
+            - API
+    delete:
+      tags:
+        - Webhooks
+      summary: Dieser Endpunkt ist work in progress und noch nicht Funktional. Löschen der Ereignisbenachrichtigung.
+      responses:
+        '200':
+          description: OK - Ereignisbenachrichtigungen werden eingestellt.
+      security:
+        - oauth2:
+            - API
 servers:
   - url: https://baufismart.api.europace.de/v1/
 components:
@@ -400,3 +452,26 @@ components:
         - UNTERSCHRIEBEN
         - NICHT_ANGENOMMEN
         - WIDERRUFEN
+    EreignisUpdateBenachrichtigung:
+      type: object
+      properties:
+        antragsNummer:
+          type: "string"
+          description: 'nur bei resourceType=[ANTRAG_NACHRICHTEN] gesetzt'
+        antragsReferenz:
+          type: "string"
+          description: "Nummer des Antrags in Ihrem System (änderbar). Nur bei resourceType=[ANTRAG_NACHRICHTEN] gesetzt."
+        resourceUrl:
+          type: "string"
+          description: 'URL zur Resource, bei der es ein Update gab'
+        resourceUrlDataType:
+          type: "string"
+          description: >
+            Datentyp, der beim Aufruf der resourceUrl zurückgegeben wird:
+              * 'ANTRAG_NACHRICHTEN' - resource Url zeigt auf Nachrichten Resource der Nachrichten API
+          enum:
+          - "ANTRAG_NACHRICHTEN"
+
+      required:
+       - resourceUrl
+       - resourceType
