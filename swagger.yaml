@@ -238,7 +238,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/json;charset=UTF-8:
             schema:
               type: object
               properties:
@@ -260,7 +260,7 @@ paths:
               requestBody:   # Contents of the callback message
                 required: true
                 content:
-                  application/json:
+                  application/json;charset=UTF-8:
                     schema:
                       $ref: '#/components/schemas/EreignisUpdateBenachrichtigung'
               parameters:
