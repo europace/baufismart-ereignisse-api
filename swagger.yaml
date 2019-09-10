@@ -253,9 +253,15 @@ paths:
                 secret:
                   type: string
                   description: secret Token mit dem Ereignisänderungen-Requests signiert werden. Dadurch können Sie prüfen, das der Request von dieser Webhook Registrierung stammt.
+                resourceType:
+                   type: string
+                   description: Angabe, für welche Art von Ereignisänderung benachrichtigt werden soll
+                   enum:
+                     - "NACHRICHTEN_ZUM_ANTRAG"
               required:
                 - callbackUrl
                 - secret
+                - resourceType
       callbacks:
         ereignisUpdate:
           '{$request.body#/callbackUrl}':
@@ -475,13 +481,14 @@ components:
           type: "string"
           description: 'URL zur Resource, bei der es ein Update gab'
         resourceUrlDataType:
-          type: "string"
-          description: >
-            Datentyp, der beim Aufruf der resourceUrl zurückgegeben wird:
-              * 'ANTRAG_NACHRICHTEN' - resource Url zeigt auf Nachrichten Resource der Nachrichten API. z.b.
-          enum:
-          - "ANTRAG_NACHRICHTEN"
-
+          $ref: '#/components/schemas/EreignisUpdateResourceType'
       required:
        - resourceUrl
        - resourceType
+    EreignisUpdateResourceType:
+      type: string
+      description: >
+        Resourcetyp passend zur resourceUrl:
+          * 'ANTRAG_NACHRICHTEN' - resource Url zeigt auf Nachrichten Resource der Nachrichten API. z.b.
+      enum:
+       - "ANTRAG_NACHRICHTEN"
