@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: API für Ereignisse in BaufiSmart-Vorgängen.
-  version: '1.2.0'
+  version: '1.2.1'
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -258,6 +258,7 @@ definitions:
         - KOMMENTAR
         - KOMMUNIKATION
         - HINWEIS
+        - EXPORT
       zeitpunkt:
         type: string
         format: date-time
