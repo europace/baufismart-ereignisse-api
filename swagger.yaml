@@ -477,6 +477,9 @@ components:
         antragsReferenz:
           type: "string"
           description: "Nummer des Antrags in Ihrem System (änderbar). Nur bei resourceType=[ANTRAG_NACHRICHTEN] gesetzt."
+        erstellerPartnerId:
+          type: "string"
+          description: "Der Ersteller der Nachricht"
         resourceUrl:
           type: "string"
           description: 'URL zur Resource, bei der es ein Update gab'
