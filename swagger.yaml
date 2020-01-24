@@ -308,7 +308,7 @@ components:
         password:
           tokenUrl: https://api.europace.de/login
           scopes:
-            API: Authorisation Scope für die gesamte API.
+            API: Authorisation Scope für die gesamte API.       
   schemas:
     Partner:
       type: object
@@ -363,6 +363,7 @@ components:
             - KOMMENTAR
             - KOMMUNIKATION
             - HINWEIS
+            - EXPORT
         zeitpunkt:
           type: string
           format: date-time
@@ -386,7 +387,6 @@ components:
           description: >
             Wenn ein Dokument nach DSGVO-Richtlinien gelöscht wurde, dann wird
             der Wert auf true gesetzt.
-
             In diesem Fall werden keine Links ausgegeben. Für nicht gelöschte Dokumente ist dieser Wert nicht gesetzt.
         _links:
           $ref: "#/components/schemas/DokumentenLink"
@@ -397,8 +397,10 @@ components:
           $ref: "#/components/schemas/Relation"
         download:
           $ref: "#/components/schemas/Relation"
+          description: URL zum Runterladen des Dokuments (intern)
         publicDownload:
           $ref: "#/components/schemas/Relation"
+          description: URL zum Runterladen des Dokuments (öffentlich)
     Relation:
       type: object
       properties:
