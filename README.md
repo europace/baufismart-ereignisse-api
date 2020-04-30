@@ -59,3 +59,7 @@ Den API client nicht mit dem Default Konstruktor, sondern dem credentials Kontru
 
 ## Fragen und Anregungen
 Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an [helpdesk@europace2.de](mailto:helpdesk@europace2.de) schreiben.
+
+## Nutzungsbedingungen
+Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt
+
