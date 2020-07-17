@@ -80,7 +80,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - API
+            - "baufinanzoierung:ereignis:lesen"
   "/ereignisse/{vorgangsNummer}":
     get:
       tags:
@@ -149,7 +149,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - API
+            - "baufinanzoierung:ereignis:lesen"
   "/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}":
     get:
       tags:
@@ -231,7 +231,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - API
+            - "baufinanzoierung:ereignis:lesen"
 servers:
   - url: https://baufismart.api.europace.de/v2/
 components:
@@ -239,10 +239,10 @@ components:
     oauth2:
       type: oauth2
       flows:
-        password:
-          tokenUrl: https://api.europace.de/login
+        implicit:
+          authorizationUrl: https://api.europace.de/auth/token
           scopes:
-            API: Authorisation Scope für die gesamte API.
+            "baufinanzoierung:ereignis:lesen": Leseberechtigung für Ereignisse
   schemas:
     Partner:
       type: object
