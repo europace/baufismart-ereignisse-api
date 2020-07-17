@@ -1,0 +1,406 @@
+openapi: 3.0.0
+info:
+  description: API für Ereignisse in BaufiSmart-Vorgängen.
+  version: 2.0.0
+  title: Ereignisse API
+  contact:
+    name: Europace AG
+    url: http://www.europace2.de
+    email: helpdesk@europace2.de
+tags:
+  - name: Vorgangsereignisse
+    description: Diese Endpunkte repräsentieren die Vertriebssicht auf einen Baufismart Vorgang.
+  - name: Antragsereignisse
+    description: Diese Endpunkte repräsentieren des Kreditentscheidersicht auf einen Baufismart Antrag.
+paths:
+  /ereignisse:
+    get:
+      tags:
+        - Vorgangsereignisse
+      summary: alle Ereignisse eines Vorgangs abrufen
+      description: Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
+        erzeugt wurde.
+      operationId: getEreignisseByVorgang
+      parameters:
+        - name: vorgangsNummer
+          in: query
+          description: Nummer des Vorgangs
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ereignis"
+        "401":
+          description: Unauthorized
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - oauth2:
+            - API
+  "/ereignisse/{vorgangsNummer}":
+    get:
+      tags:
+        - Vorgangsereignisse
+      summary: alle Ereignisse eines Vorgangs abrufen
+      description: Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
+        erzeugt wurde.
+      operationId: getEreignisse
+      parameters:
+        - name: vorgangsNummer
+          in: path
+          description: Nummer des Vorgangs
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ereignis"
+        "401":
+          description: Unauthorized
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - oauth2:
+            - API
+  "/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}":
+    get:
+      tags:
+        - Antragsereignisse
+      summary: alle Ereignisse eines Antrags abrufen
+      description: "Als Parameter wird die Vorgangsnummer, die Antragsnummer und die
+        TeilAntragsnummer verwendet, die aus BaufiSmart erzeugt wurde. Bsp:
+        AB1234/1/2"
+      operationId: getAntragsEreignisse
+      parameters:
+        - name: vorgangsNummer
+          in: path
+          description: Nummer des Vorgangs
+          required: true
+          schema:
+            type: string
+        - name: antragsNummer
+          in: path
+          description: Antragsnummer
+          required: true
+          schema:
+            type: string
+        - name: teilAntragsNummer
+          in: path
+          description: Teilantragsnummer
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ereignis"
+        "401":
+          description: Unauthorized
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - oauth2:
+            - API
+servers:
+  - url: https://baufismart.api.europace.de/v2/
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://api.europace.de/login
+          scopes:
+            API: Authorisation Scope für die gesamte API.
+  schemas:
+    Partner:
+      type: object
+      properties:
+        partnerId:
+          type: string
+        anrede:
+          type: string
+          enum:
+            - FRAU
+            - HERR
+        nachname:
+          type: string
+        vorname:
+          type: string
+        externePartnerId:
+          type: string
+      title: Partner
+    Ereignis:
+      type: object
+      properties:
+        vorgangsNummer:
+          type: string
+          description: Die Vorgangsnummer
+        antragsNummer:
+          type: string
+          description: Die Antragsnummer
+        meldung:
+          type: string
+          description: Beschreibung des Ereignisses
+        typ:
+          type: string
+          description: >
+            Der Typ des Ereignisses. Der Typ 'STATUS_AENDERUNG' betrifft
+            folgende Änderungen am Vorgang:
+                       * Angebot angenommen
+                       * Geprüftes Angebot nicht akzeptiert
+                       * Externe VorgangNummer gesetzt
+                       * Bearbeiter geändert
+                       * Kundenbetreuer geändert
+                       * Tippgeber geändert
+                       * Bearbeitungsdatum aktualisiert
+                       * Gegenangebot erstellt
+                       * Antragstatus wurde geanedert
+            Wenn der Typ 'DOKUMENTE' gesetzt ist, wird das Element 'dokumente'  mit ausgeliefert. Beim Typ 'ANTRAGSTATUS_AENDERUNG'
+
+            das Element 'antragsStatus'.
+          enum:
+            - DOKUMENTE
+            - STATUS_AENDERUNG
+            - WIEDERVORLAGE
+            - KOMMENTAR
+            - KOMMUNIKATION
+            - HINWEIS
+            - EXPORT
+        zeitpunkt:
+          type: string
+          format: date-time
+          description: Zeitpunkt des Ereignisses
+        quelle:
+          $ref: "#/components/schemas/Partner"
+        dokumente:
+          type: array
+          items:
+            $ref: "#/components/schemas/Dokumente"
+        antragsStatus:
+          $ref: "#/components/schemas/AntragsStatus"
+      title: Ereignis
+    Dokumente:
+      type: object
+      properties:
+        name:
+          type: string
+        geloescht:
+          type: boolean
+          description: >
+            Wenn ein Dokument nach DSGVO-Richtlinien gelöscht wurde, dann wird
+            der Wert auf true gesetzt.
+            In diesem Fall werden keine Links ausgegeben. Für nicht gelöschte Dokumente ist dieser Wert nicht gesetzt.
+        _links:
+          $ref: "#/components/schemas/DokumentenLink"
+    DokumentenLink:
+      type: object
+      properties:
+        self:
+          $ref: "#/components/schemas/Relation"
+        download:
+          $ref: "#/components/schemas/Relation"
+          description: URL zum Runterladen des Dokuments (intern)
+        publicDownload:
+          $ref: "#/components/schemas/Relation"
+          description: URL zum Runterladen des Dokuments (öffentlich)
+    Relation:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          description: A HAL Ref
+        type:
+          type: string
+          description: Media-Type nach https://tools.ietf.org/html/rfc6838.
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        statusMessage:
+          type: string
+        timestamp:
+          type: string
+        traceId:
+          type: string
+      title: Error
+    AntragsStatus:
+      type: object
+      description: Der detaillierte Antragstatus
+      properties:
+        antragsteller:
+          $ref: "#/components/schemas/AntragstellerStatus"
+        produktAnbieter:
+          $ref: "#/components/schemas/ProduktAnbieterStatus"
+        kommentar:
+          type: string
+        ablehnungsgrund:
+          type: string
+          description: Ablehnungsgrund des Produktanbieters
+          enum:
+            - FINANZIELLE_SITUATION
+            - NEGATIV_MERKMAL
+            - WERTERMITTLUNG
+            - KRITERIEN
+            - UNTERLAGEN_UNVOLLSTAENDIG
+            - GEGENANGEBOT
+            - KEINE_ANGABE
+        bearbeitungsFortschritt:
+          type: string
+          description: Bearbeitungsfortschritt des Antrags nach beidseitiger Unterzeichnung
+          enum:
+            - NICHT_VON_PRODUKTANBIETER_BESTAETIGT
+            - VON_PRODUKTANBIETER_BESTAETIGT
+            - FREIGEGEBEN_FUER_SAMMELFORDERUNG
+            - PROVISION_IN_BEARBEITUNG
+            - PROVISON_AN_KUNDENBETREUER_VOLLSTAENDIG_AUSGEZAHLT
+    ProduktAnbieterStatus:
+      type: string
+      enum:
+        - NICHT_BEARBEITET
+        - UNTERSCHRIEBEN
+        - ABGELEHNT
+        - ZURUECKGESTELLT
+    AntragstellerStatus:
+      type: string
+      enum:
+        - BEANTRAGT
+        - UNTERSCHRIEBEN
+        - NICHT_ANGENOMMEN
+        - WIDERRUFEN
