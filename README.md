@@ -60,6 +60,7 @@ Damit der Client für diese API genutzt werden kann, müssen im Partnermanagemen
 | **Baufinanzierungsereignisse lesen**        | Grundsätzlich zum Auslesen von Ereignissen benötigt |
 | **Baufinanzierung-Echtgeschäft bearbeiten** | sonst sind nur Ereignisse zu Testvorgängen lesbar   |
 | **Darf Partner-Daten lesen**                | sonst sind werden nur `PartnerIds` ausgegeben       |
+| **Dokumente lesen**                         | sonst werden keine Dokumente ausgegeben             |
  
 Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **401 UNAUTHORIZED**.
 
