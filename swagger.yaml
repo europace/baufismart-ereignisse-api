@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: API für Ereignisse in BaufiSmart-Vorgängen.
-  version: 1.2.1
+  version: 2.0.0
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -12,8 +12,6 @@ tags:
     description: Diese Endpunkte repräsentieren die Vertriebssicht auf einen Baufismart Vorgang.
   - name: Antragsereignisse
     description: Diese Endpunkte repräsentieren des Kreditentscheidersicht auf einen Baufismart Antrag.
-  - name: Webhooks
-    description: Diese Endpunkte dienen der Konfiguration von Webhooks. Damit können sie über Ereignisänderungen direkt benachrichtigt werden.
 paths:
   /ereignisse:
     get:
@@ -82,7 +80,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - API
+            - "baufinanzoierung:ereignis:lesen"
   "/ereignisse/{vorgangsNummer}":
     get:
       tags:
@@ -151,7 +149,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - API
+            - "baufinanzoierung:ereignis:lesen"
   "/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}":
     get:
       tags:
@@ -233,82 +231,18 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - API
-  /ereignisse/subscribe:
-    post:
-      tags:
-        - Webhooks
-      summary: Dieser Endpunkt ist work in progress und noch nicht Funktional. Erstellen der Ereignisbenachrichtigung. Als Kreditentscheider werden Sie über Ereignisse zu Anträgen benachrichtigt.
-      requestBody:
-        required: true
-        content:
-          application/json;charset=UTF-8:
-            schema:
-              type: object
-              properties:
-                callbackUrl:   # Callback URL
-                  type: string
-                  format: uri
-                  example: https://myserver.com/send/callback/here
-                secret:
-                  type: string
-                  description: secret Token mit dem Ereignisänderungen-Requests signiert werden. Dadurch können Sie prüfen, das der Request von dieser Webhook Registrierung stammt.
-                resourceType:
-                   type: string
-                   description: Angabe, für welche Art von Ereignisänderung benachrichtigt werden soll
-                   enum:
-                     - "NACHRICHTEN_ZUM_ANTRAG"
-              required:
-                - callbackUrl
-                - secret
-                - resourceType
-      callbacks:
-        ereignisUpdate:
-          '{$request.body#/callbackUrl}':
-            post:  
-              requestBody:
-                required: true
-                content:
-                  application/json;charset=UTF-8:
-                    schema:
-                      $ref: '#/components/schemas/EreignisUpdateBenachrichtigung'
-              parameters:
-                - name: X-EREIGNISSE-API-SIGNATURE
-                  in: header
-                  schema:
-                    type: string
-                  required: true
-                  description: 'HMAC aus Requestbody und {$request.body#/secret}'
-              responses:
-                '200':
-                  description: OK - Ereignisänderung erfolgreich verarbeitet
-      responses:
-        '201':
-          description: Ereignisbenachrichtigung eingerichtet
-      security:
-        - oauth2:
-            - API
-    delete:
-      tags:
-        - Webhooks
-      summary: Dieser Endpunkt ist work in progress und noch nicht Funktional. Löschen der Ereignisbenachrichtigung.
-      responses:
-        '200':
-          description: OK - Ereignisbenachrichtigung wurde gelöscht.
-      security:
-        - oauth2:
-            - API
+            - "baufinanzoierung:ereignis:lesen"
 servers:
-  - url: https://baufismart.api.europace.de/v1/
+  - url: https://baufismart.api.europace.de/v2/
 components:
   securitySchemes:
     oauth2:
       type: oauth2
       flows:
-        password:
-          tokenUrl: https://api.europace.de/login
+        implicit:
+          authorizationUrl: https://api.europace.de/auth/token
           scopes:
-            API: Authorisation Scope für die gesamte API.       
+            "baufinanzoierung:ereignis:lesen": Leseberechtigung für Ereignisse
   schemas:
     Partner:
       type: object
@@ -470,30 +404,3 @@ components:
         - UNTERSCHRIEBEN
         - NICHT_ANGENOMMEN
         - WIDERRUFEN
-    EreignisUpdateBenachrichtigung:
-      type: object
-      properties:
-        antragsNummer:
-          type: "string"
-          description: 'nur bei resourceType=[ANTRAG_NACHRICHTEN] gesetzt'
-        antragsReferenz:
-          type: "string"
-          description: "Nummer des Antrags in Ihrem System (änderbar). Nur bei resourceType=[ANTRAG_NACHRICHTEN] gesetzt."
-        erstellerPartnerId:
-          type: "string"
-          description: "Der Ersteller der Nachricht"
-        resourceUrl:
-          type: "string"
-          description: 'URL zur Resource, bei der es ein Update gab'
-        resourceUrlDataType:
-          $ref: '#/components/schemas/EreignisUpdateResourceType'
-      required:
-       - resourceUrl
-       - resourceType
-    EreignisUpdateResourceType:
-      type: string
-      description: >
-        Resourcetyp passend zur resourceUrl:
-          * 'ANTRAG_NACHRICHTEN' - resource Url zeigt auf Nachrichten Resource der Nachrichten API. z.b.
-      enum:
-       - "ANTRAG_NACHRICHTEN"
