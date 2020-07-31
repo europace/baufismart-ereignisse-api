@@ -11,7 +11,7 @@ tags:
   - name: Vorgangsereignisse
     description: Diese Endpunkte repräsentieren die Vertriebssicht auf einen Baufismart Vorgang.
   - name: Antragsereignisse
-    description: Diese Endpunkte repräsentieren des Kreditentscheidersicht auf einen Baufismart Antrag.
+    description: Diese Endpunkte repräsentieren die Kreditentscheidersicht auf einen Baufismart Antrag.
 paths:
   /ereignisse:
     get:
@@ -80,7 +80,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - "baufinanzoierung:ereignis:lesen"
+            - "baufinanzierung:ereignis:lesen"
   "/ereignisse/{vorgangsNummer}":
     get:
       tags:
@@ -149,7 +149,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - "baufinanzoierung:ereignis:lesen"
+            - "baufinanzierung:ereignis:lesen"
   "/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}":
     get:
       tags:
@@ -231,7 +231,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       security:
         - oauth2:
-            - "baufinanzoierung:ereignis:lesen"
+            - "baufinanzierung:ereignis:lesen"
 servers:
   - url: https://baufismart.api.europace.de/v2/
 components:
@@ -242,7 +242,7 @@ components:
         implicit:
           authorizationUrl: https://api.europace.de/auth/token
           scopes:
-            "baufinanzoierung:ereignis:lesen": Leseberechtigung für Ereignisse
+            "baufinanzierung:ereignis:lesen": Leseberechtigung für Ereignisse
   schemas:
     Partner:
       type: object
