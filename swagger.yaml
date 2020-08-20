@@ -72,6 +72,12 @@ paths:
             application/json;charset=UTF-8:
               schema:
                 $ref: "#/components/schemas/Error"
+        "503":
+          description: Service Unavailable
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
         "504":
           description: Gateway Timeout
           content:
@@ -137,6 +143,12 @@ paths:
                 $ref: "#/components/schemas/Error"
         "502":
           description: Bad Gateway
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "503":
+          description: Service Unavailable
           content:
             application/json;charset=UTF-8:
               schema:
@@ -219,6 +231,12 @@ paths:
                 $ref: "#/components/schemas/Error"
         "502":
           description: Bad Gateway
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "503":
+          description: Service Unavailable
           content:
             application/json;charset=UTF-8:
               schema:
