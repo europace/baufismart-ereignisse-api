@@ -98,6 +98,8 @@ Entsprechend muss im Request der Content-Type Header gesetzt werden. Zusätzlich
 | Fehlercode | Nachricht                  | Erklärung                                                                                       |
 |------------|----------------------------|-------------------------------------------------------------------------------------------------|
 | 403        | Insufficient access rights | Es wird versucht auf eine Ressource zuzugreifen, die die Vertriebsorganisation nicht lesen darf |
+| 404        | Ressource not found | Es wird versucht auf eine nicht existierende Ressource zuzugreifen |
+| 503        | Service temporarily unavailable | Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar |
 
 ## API Spezifikation
 Die API ist vollständig in Swagger definiert und steht im YAML-Format zur Verfügung. Für die Generierung eines Clients empfehlen wir Swagger Codegen.
