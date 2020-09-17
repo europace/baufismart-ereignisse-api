@@ -4,8 +4,8 @@ Die Ereignisse-API liefert die Ereignisse eines Vorgangs bzw. eines Antrags inkl
 *Aktuelle Version: 2.0.0*
 * [Release Notes](https://github.com/hypoport/ep-ereignisse-api/releases)
 
-> :warning: Diese Schnittstelle wird kontinuierlich weiterentwickelt. Daher erwarten wir 
-> von allen Nutzern dieser Schnittstelle, dass sie das "[Tolerant Reader Pattern](https://martinfowler.com/bliki/TolerantReader.html)" nutzen, d.h. 
+> :warning: Diese Schnittstelle wird kontinuierlich weiterentwickelt. Daher erwarten wir
+> von allen Nutzern dieser Schnittstelle, dass sie das "[Tolerant Reader Pattern](https://martinfowler.com/bliki/TolerantReader.html)" nutzen, d.h.
 > tolerant gegenüber kompatiblen API-Änderungen beim Lesen und Prozessieren der Daten sind:
 >
 > 1. unbekannte Felder dürfen keine Fehler verursachen
@@ -13,8 +13,8 @@ Die Ereignisse-API liefert die Ereignisse eines Vorgangs bzw. eines Antrags inkl
 > 2. Strings mit eingeschränktem Wertebereich (Enums) müssen mit neuen, unbekannten Werten umgehen können
 >
 > 3. sinnvoller Umgang mit HTTP-Statuscodes, die nicht explizit dokumentiert sind  
-> 
- 
+>
+
 <!-- https://opensource.zalando.com/restful-api-guidelines/#108 -->
 
 # Inhaltsverzeichnis
@@ -42,15 +42,15 @@ Für einen Schnelleinstieg, siehe [Tools](#tools)
 
 ## Authentifizierung
 
-Für jeden Request ist eine Authentifizierung erforderlich. Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow. 
+Für jeden Request ist eine Authentifizierung erforderlich. Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow.
 
 | Request Header Name | Beschreibung           |
 |---------------------|------------------------|
 | Authorization       | OAuth 2.0 Bearer Token |
 
 
-Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden. 
-Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde, 
+Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden.
+Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde,
 eine Anleitung dafür befindet sich im [Help Center](https://europace2.zendesk.com/hc/de/articles/360012514780).
 
 Damit der Client für diese API genutzt werden kann, müssen im Partnermanagement die folgenden Berechtigungen aktiviert werden
@@ -61,7 +61,7 @@ Damit der Client für diese API genutzt werden kann, müssen im Partnermanagemen
 | **Baufinanzierung-Echtgeschäft bearbeiten** | sonst sind nur Ereignisse zu Testvorgängen lesbar   |
 | **Darf Partner-Daten lesen**                | sonst sind werden nur `PartnerIds` ausgegeben       |
 | **Dokumente lesen**                         | sonst werden keine Dokumente ausgegeben             |
- 
+
 Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **401 UNAUTHORIZED**.
 
 Hat der Client nicht die benötigte Berechtigung um die Resource abzurufen, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
@@ -137,7 +137,7 @@ curl -X GET \
 
 ## Tools
 
-Für [Postman](https://www.getpostman.com/) stellen wir im [Schnellstarter-Projekt](https://github.com/europace/api-schnellstart/) 
+Für [Postman](https://www.getpostman.com/) stellen wir im [Schnellstarter-Projekt](https://github.com/europace/api-schnellstart/)
 auch eine Collection mit einem Beispiel für die Ereignisse-API zur Verfügung.
 
 ## Kontakt
@@ -147,4 +147,4 @@ Kontakt für Support: devsupport@europace2.de
 Nur Bei Bedarf
 
 ## Nutzungsbedingungen
-Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt.
+Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
