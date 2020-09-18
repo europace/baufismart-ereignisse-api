@@ -4,7 +4,7 @@ Die Ereignisse-API liefert die Ereignisse eines Vorgangs bzw. eines Antrags inkl
 *Aktuelle Version: 2.0.0*
 * [Release Notes](https://github.com/hypoport/ep-ereignisse-api/releases)
 
-> :warning: Diese Schnittstelle wird kontinuierlich weiterentwickelt. Daher erwarten wir
+> Diese Schnittstelle wird kontinuierlich weiterentwickelt. Daher erwarten wir
 > von allen Nutzern dieser Schnittstelle, dass sie das "[Tolerant Reader Pattern](https://martinfowler.com/bliki/TolerantReader.html)" nutzen, d.h.
 > tolerant gegenüber kompatiblen API-Änderungen beim Lesen und Prozessieren der Daten sind:
 >
