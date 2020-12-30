@@ -1,120 +1,42 @@
-# Baufismart Ereignisse-API
-Die Ereignisse-API liefert die Ereignisse eines Vorgangs bzw. eines Antrags inkl. Zeitpunkt, Typ, Ersteller, Text und ggf. verlinkter Dokumente zurück.
+# Ereignisse-API
+Die API liefert die Ereignisse eines Vorgangs bzw. eines Antrags inkl. Zeitpunkt, Typ, Ersteller, Text und ggf. verlinkter Dokumente zurück.
 
-*Aktuelle Version: 2.0.0*
-* [Release Notes](https://github.com/hypoport/ep-ereignisse-api/releases)
+![Vertrieb](https://img.shields.io/badge/-Vertrieb-lightblue)
+![Produktanbieter](https://img.shields.io/badge/-Produktanbieter-lightblue)
+![Baufinanzierung](https://img.shields.io/badge/-Baufinanzierung-lightblue)
+![Privatkredit](https://img.shields.io/badge/-Privatkredit-lightblue)
 
-> Diese Schnittstelle wird kontinuierlich weiterentwickelt. Daher erwarten wir
-> von allen Nutzern dieser Schnittstelle, dass sie das "[Tolerant Reader Pattern](https://martinfowler.com/bliki/TolerantReader.html)" nutzen, d.h.
-> tolerant gegenüber kompatiblen API-Änderungen beim Lesen und Prozessieren der Daten sind:
->
-> 1. unbekannte Felder dürfen keine Fehler verursachen
->
-> 2. Strings mit eingeschränktem Wertebereich (Enums) müssen mit neuen, unbekannten Werten umgehen können
->
-> 3. sinnvoller Umgang mit HTTP-Statuscodes, die nicht explizit dokumentiert sind  
->
+[![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://github.com/europace/authorization-api)
+[![GitHub release](https://img.shields.io/github/v/release/europace/baufismart-ereignisse-api)](https://github.com/europace/baufismart-ereignisse-api/releases)
 
-<!-- https://opensource.zalando.com/restful-api-guidelines/#108 -->
+[![Pattern](https://img.shields.io/badge/Pattern-Tolerant%20Reader-yellowgreen)](https://martinfowler.com/bliki/TolerantReader.html)
 
-# Inhaltsverzeichnis
+## Dokumentation
+[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufismart-ereignisse-api/gh-pages/index.html)
+[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufismart-ereignisse-api/master/swagger.yaml)
 
-* [Allgemeines](#allgemeines)
-* [Authentifizierung](#authentifizierung)
-* [TraceId zur Nachverfolgbarkeit von Requests](#traceid-zur-nachverfolgbarkeit-von-requests)
-* [Content-Type](#content-type)
-* [Fehlercodes](#fehlercodes)
-   * [HTTP-Status Errors](#http-status-errors)
-   * [weitere Fehler](#weitere-fehler)
-* [API-Spezifikation](#api-spezifikation)
-* [API-Referenz](#api-referenz)
-* [Beispiel](#beispiel)
-* [FAQs](#faqs)
-* [Tools](#tools)
-* [Kontakt](#kontakt)
-* [Nutzungsbedingungen](#nutzungsbedingungen)
+## Anwendungsfälle der API
+- Anzeige der Ereignisse in einem CRM-System oder einer App
+- detaillierte zeitliche und inhaltliche Analysen zur Bearbeitung des Vorgangs
 
-# Dokumentation
+# Schnellstart
+Damit du unsere APIs und deinen Anwendungsfall schnellstmöglich testen kannst, haben wir eine [Postman-Collection](https://docs.api.europace.de/baufinanzierung/schnellstart/) für dich zusammengestellt.
 
-## Allgemeines
+### Authentifizierung
+Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/), um Zugang zur API bekommen. Um die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
 
-Für einen Schnelleinstieg, siehe [Tools](#tools)
-
-## Authentifizierung
-
-Für jeden Request ist eine Authentifizierung erforderlich. Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow.
-
-| Request Header Name | Beschreibung           |
-|---------------------|------------------------|
-| Authorization       | OAuth 2.0 Bearer Token |
+| Scope                                  | API Usecase                                   |
+|----------------------------------------|-----------------------------------------------|
+| `baufinanzierung:ereignis:lesen`       | Grundsätzlich zum Auslesen von Ereignissen benötigt |
+| `baufinanzierung:echtgeschaeft`        | sonst sind nur Ereignisse zu Testvorgängen lesbar |
+| `partner:plakette:lesen`               | sonst werden nur `PartnerIds` ausgegeben      |
+| `unterlagen:dokument:lesen`            | sonst werden keine Dokumente ausgegeben       |
 
 
-Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden.
-Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde,
-eine Anleitung dafür befindet sich im [Help Center](https://europace2.zendesk.com/hc/de/articles/360012514780).
+## Beispiel: Ereignisse zu einem Vorgang auslesen
 
-Damit der Client für diese API genutzt werden kann, müssen im Partnermanagement die folgenden Berechtigungen aktiviert werden
-
-| Name                                        | Hintergrund                                         |
-| ------------------------------------------- | --------------------------------------------------- |
-| **Baufinanzierungsereignisse lesen**        | Grundsätzlich zum Auslesen von Ereignissen benötigt |
-| **Baufinanzierung-Echtgeschäft bearbeiten** | sonst sind nur Ereignisse zu Testvorgängen lesbar   |
-| **Darf Partner-Daten lesen**                | sonst sind werden nur `PartnerIds` ausgegeben       |
-| **Dokumente lesen**                         | sonst werden keine Dokumente ausgegeben             |
-
-Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **401 UNAUTHORIZED**.
-
-Hat der Client nicht die benötigte Berechtigung um die Resource abzurufen, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
-
-## TraceId zur Nachverfolgbarkeit von Requests
-
-Für jeden Request soll eine eindeutige ID generiert werden, die den Request im EUROPACE 2 System nachverfolgbar macht und so bei etwaigen Problemen oder Fehlern die systemübergreifende Analyse erleichtert.  
-Die Übermittlung der X-TraceId erfolgt über einen HTTP-Header. Dieser Header ist optional,
-wenn er nicht gesetzt ist, wird eine ID vom System generiert.
-
-| Request Header Name | Beschreibung                    | Beispiel    |
-|---------------------|---------------------------------|-------------|
-| X-TraceId           | eindeutige Id für jeden Request | sys12345678 |
-
-## Content-Type
-
-Die Schnittstelle akzeptiert Daten mit Content-Type `application/json`.  
-Entsprechend muss im Request der Content-Type Header gesetzt werden. Zusätzlich das Encoding, wenn es nicht UTF-8 ist.
-
-| Request Header Name |   Header Value   |
-|---------------------|------------------|
-| Content-Type        | application/json |
-
-## Fehlercodes
-
-### HTTP-Status Errors
-
-| Fehlercode | Nachricht       | weitere Attribute          | Erklärung                            |
-|------------|-----------------|----------------------------|--------------------------------------|
-| 401        | Unauthorized    | -                          | Authentifizierung ist fehlgeschlagen |
-
-### Weitere Fehler
-
-| Fehlercode | Nachricht                  | Erklärung                                                                                       |
-|------------|----------------------------|-------------------------------------------------------------------------------------------------|
-| 403        | Insufficient access rights | Es wird versucht auf eine Ressource zuzugreifen, die die Vertriebsorganisation nicht lesen darf |
-| 404        | Ressource not found | Es wird versucht auf eine nicht existierende Ressource zuzugreifen |
-| 503        | Service temporarily unavailable | Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar |
-
-## API Spezifikation
-Die API ist vollständig in Swagger definiert und steht im YAML-Format zur Verfügung. Für die Generierung eines Clients empfehlen wir Swagger Codegen.
-
-* [Swagger.yaml](https://github.com/hypoport/ep-ereignisse-api/blob/master/swagger.yaml)
-
-## API Referenz
-
-Siehe Swagger
-
-## Beispiel
-
-Ereignisse zu einem Vorgang auslesen. Beispiel:
-
-```
+Request:
+``` cURL
 curl -X GET \
   'https://baufismart.api.europace.de/v2/ereignisse/DM2902' \
   -H 'Authorization: Bearer eyJj...GVkA' \
@@ -122,9 +44,84 @@ curl -X GET \
   -H 'cache-control: no-cache'
 ```
 
-Ereignisse zu einem Ereignis auslesen. Beispiel:
+Response: \
+[siehe API-Spezifikation](https://europace.github.io/baufismart-ereignisse-api/gh-pages/index.html#get-/ereignisse/-vorgangsNummer-)
 
+``` json
+{
+        "vorgangsNummer": "CH6407",
+        "meldung": "Herr Musterkunde meldet sich am Montag nochmal zum Finanzierungsvorschlag.",
+        "typ": "KOMMENTAR",
+        "zeitpunkt": "2018-03-02T17:09:34.952+01:00",
+        "quelle": {
+            "partnerId": "DIV95",
+            "anrede": "HERR",
+            "nachname": "Musterberater",
+            "vorname": "Max",
+            "externePartnerId": "meineId"
+        }
+    },
+    {
+        "vorgangsNummer": "CH6407",
+        "meldung": "Finanzierungsvorschlag an theo.musterkunde@gmail.com versandt",
+        "typ": "KOMMUNIKATION",
+        "zeitpunkt": "2018-03-02T16:58:04.952+01:00",
+        "quelle": {
+          "partnerId": "DIV95",
+          "anrede": "HERR",
+          "nachname": "Musterberater",
+          "vorname": "Max",
+          "externePartnerId": "meineId"
+        },
+        "dokumente": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://api.europace.de/v1/dokumente/5c4ac67de4b0829c9dc13a04"
+                    },
+                    "download": {
+                        "href": "https://api.europace.de/v1/dokumente/5c4ac67de4b0829c9dc13a04/content"
+                    },
+                    "publicDownload": {
+                        "href": "https://www.europace2.de/dokumentenverwaltung/download?id=354d44fbe827b624bc4b439ba0bdb4aa33b941e628ddd3e5ca0f9b47677ba9c419668c654887c2489f4535f17ec4a7f71657344c128d0d04acf5fbff0e5e92a0"
+                    }
+                },
+                "name": "Ihre Finanzierungsanfrage (Musterkunde und Musterfrau) (25.01.2019)"
+            }
+        ]
+    },
+    {
+     "vorgangsNummer": "CH6407",
+     "meldung": "Datenschutzklausel vom Kunden unterschrieben und Vorvertragliche Informationspflichten nach §655a Abs. 2 Satz 1 BGB i.V.m. Art. 247 §13 EGBGB vom Vermittler bestätigt. Soweit Beratungsleistungen angeboten wurden, wurde zusätzlich bestätigt, dass den vorvertraglichen Informationspflichten nach Art. 247 § 13b Absatz 3 i.V.m. Art. 247 § 18 EGBGB nachgekommen wurde.",
+     "typ": "HINWEIS",
+     "zeitpunkt": "2018-03-02T16:45:00.952+01:00",
+     "quelle": {
+       "partnerId": "DIV95",
+       "anrede": "HERR",
+       "nachname": "Musterberater",
+       "vorname": "Max",
+       "externePartnerId": "meineId"
+     }
+    },
+    {
+        "vorgangsNummer": "CH6407",
+        "meldung": "Vorgang angelegt",
+        "typ": "STATUS_AENDERUNG",
+        "zeitpunkt": "2018-03-02T16:29:53.952+01:00",
+        "quelle": {
+          "partnerId": "DIV95",
+          "anrede": "HERR",
+          "nachname": "Musterberater",
+          "vorname": "Max",
+          "externePartnerId": "meineId"
+        }
+    }
 ```
+
+## Beispiel: Ereignisse zu einem Antrag auslesen
+
+Request:
+``` cURL
 curl -X GET \
   'https://baufismart.api.europace.de/v2/ereignisse/DM2902/1/1' \
   -H 'Authorization: Bearer eyJj...GVkA' \
@@ -132,19 +129,12 @@ curl -X GET \
   -H 'cache-control: no-cache'
 ```
 
-## FAQs
-[https://developer.europace.de/faq/](https://developer.europace.de/faq/)
+Response: \
+[siehe API-Spezifikation](https://europace.github.io/baufismart-ereignisse-api/gh-pages/index.html#get-/ereignisse/-vorgangsNummer-/-antragsNummer-/-teilAntragsNummer-)
 
-## Tools
 
-Für [Postman](https://www.getpostman.com/) stellen wir im [Schnellstarter-Projekt](https://github.com/europace/api-schnellstart/)
-auch eine Collection mit einem Beispiel für die Ereignisse-API zur Verfügung.
-
-## Kontakt
-Kontakt für Support: devsupport@europace2.de
-
-## Requirements
-Nur Bei Bedarf
+## Support
+Bei Fragen oder Problemen kannst du dich an devsupport@europace2.de wenden.
 
 ## Nutzungsbedingungen
 Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
