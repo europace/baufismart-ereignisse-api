@@ -5,7 +5,7 @@ info:
   title: Ereignisse API
   contact:
     name: Europace AG
-    url: http://www.europace2.de
+    url: 'http://www.europace2.de'
     email: helpdesk@europace2.de
 tags:
   - name: Vorgangsereignisse
@@ -18,8 +18,7 @@ paths:
       tags:
         - Vorgangsereignisse
       summary: alle Ereignisse eines Vorgangs abrufen
-      description: Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
-        erzeugt wurde.
+      description: 'Dieser Endpunkt ist für Vertriebsorganisiationen gedacht, die Zugriff auf den Vorgang haben. Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart erzeugt wurde. '
       operationId: getEreignisseByVorgang
       parameters:
         - name: vorgangsNummer
@@ -28,72 +27,86 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json;charset=UTF-8:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Ereignis"
-        "401":
-          description: Unauthorized
+                  $ref: '#/components/schemas/Ereignis'
+              examples: {}
+        '401':
+          description: |-
+            Unauthorized
+            Authentifizierung ist fehlgeschlagen
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
-          description: Forbidden
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |-
+            Forbidden
+            Insufficient access rights
+            Es wird versucht auf eine Ressource zuzugreifen, die die Vertriebsorganisation nicht lesen darf
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
-          description: Not Found
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |-
+            Not Found
+            Es wird versucht auf eine nicht existierende Ressource zuzugreifen
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "405":
+                $ref: '#/components/schemas/Error'
+        '405':
           description: Method Not Allowed
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "502":
-          description: Bad Gateway
+                $ref: '#/components/schemas/Error'
+        '502':
+          description: |-
+            Bad Gateway
+            Das Anfrageformat ist ungültig.
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "503":
-          description: Service Unavailable
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: |-
+            Service Unavailable
+            Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "504":
+                $ref: '#/components/schemas/Error'
+        '504':
           description: Gateway Timeout
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
       security:
         - oauth2:
-            - "baufinanzierung:ereignis:lesen"
-  "/ereignisse/{vorgangsNummer}":
+            - 'baufinanzierung:ereignis:lesen'
+            - 'baufinanzierung:echtgeschaeft'
+            - 'partner:plakette:lesen'
+            - 'unterlagen:dokument:lesen'
+  '/ereignisse/{vorgangsNummer}':
     get:
       tags:
         - Vorgangsereignisse
       summary: alle Ereignisse eines Vorgangs abrufen
-      description: Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart
-        erzeugt wurde.
+      description: 'Dieser Endpunkt ist für Vertriebsorganisiationen gedacht, die Zugriff auf den Vorgang haben. Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart erzeugt wurde. '
       operationId: getEreignisse
       parameters:
         - name: vorgangsNummer
@@ -103,73 +116,84 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json;charset=UTF-8:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Ereignis"
-        "401":
-          description: Unauthorized
+                  $ref: '#/components/schemas/Ereignis'
+        '401':
+          description: |-
+            Unauthorized
+            Authentifizierung ist fehlgeschlagen
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
-          description: Forbidden
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |-
+            Forbidden
+            Es wird versucht auf eine Ressource zuzugreifen, die der Client nicht lesen darf
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
-          description: Not Found
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |-
+            Not Found
+            Es wird versucht auf eine nicht existierende Ressource zuzugreifen
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "405":
+                $ref: '#/components/schemas/Error'
+        '405':
           description: Method Not Allowed
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "502":
+                $ref: '#/components/schemas/Error'
+        '502':
           description: Bad Gateway
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "503":
-          description: Service Unavailable
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: |-
+            Service Unavailable
+            Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "504":
+                $ref: '#/components/schemas/Error'
+        '504':
           description: Gateway Timeout
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
       security:
         - oauth2:
-            - "baufinanzierung:ereignis:lesen"
-  "/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}":
+            - 'baufinanzierung:ereignis:lesen'
+            - 'baufinanzierung:echtgeschaeft'
+            - 'partner:plakette:lesen'
+            - 'unterlagen:dokument:lesen'
+  '/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}':
     get:
       tags:
         - Antragsereignisse
       summary: alle Ereignisse eines Antrags abrufen
-      description: "Als Parameter wird die Vorgangsnummer, die Antragsnummer und die
-        TeilAntragsnummer verwendet, die aus BaufiSmart erzeugt wurde. Bsp:
-        AB1234/1/2"
+      description: |-
+        Dieser Endpunkt ist für Produtkanbieter gedacht, die Zugriff auf den Antrag haben. Es werden nur die Ereignisse des Antrags geliefert, nicht die des Vorgangs. Als Vertrieb erhalte ich hier keine Ereignisse, sondern den Fehlercode 403. 
+        Als Parameter wird die Vorgangsnummer, die Antragsnummer und die TeilAntragsnummer verwendet, die aus BaufiSmart erzeugt wurde. Bsp: AB1234/1/2.
       operationId: getAntragsEreignisse
       parameters:
         - name: vorgangsNummer
@@ -191,76 +215,90 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json;charset=UTF-8:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Ereignis"
-        "401":
-          description: Unauthorized
+                  $ref: '#/components/schemas/Ereignis'
+        '401':
+          description: |-
+            Unauthorized
+            Authentifizierung ist fehlgeschlagen
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
-          description: Forbidden
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |-
+            Forbidden
+            Es wird versucht auf eine Ressource zuzugreifen, die der Client nicht lesen darf
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
-          description: Not Found
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |-
+            Not Found
+            Es wird versucht auf eine nicht existierende Ressource zuzugreifen
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "405":
+                $ref: '#/components/schemas/Error'
+        '405':
           description: Method Not Allowed
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "502":
+                $ref: '#/components/schemas/Error'
+        '502':
           description: Bad Gateway
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "503":
-          description: Service Unavailable
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: |-
+            Service Unavailable
+            Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
-        "504":
+                $ref: '#/components/schemas/Error'
+        '504':
           description: Gateway Timeout
           content:
             application/json;charset=UTF-8:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
       security:
         - oauth2:
-            - "baufinanzierung:ereignis:lesen"
+            - 'baufinanzierung:ereignis:lesen'
+            - 'baufinanzierung:echtgeschaeft'
+            - 'partner:plakette:lesen'
+            - 'unterlagen:dokument:lesen'
 servers:
-  - url: https://baufismart.api.europace.de/v2/
+  - url: 'https://baufismart.api.europace.de/v2'
 components:
   securitySchemes:
     oauth2:
       type: oauth2
       flows:
-        implicit:
-          authorizationUrl: https://api.europace.de/auth/token
+        clientCredentials:
           scopes:
-            "baufinanzierung:ereignis:lesen": Leseberechtigung für Ereignisse
+            'baufinanzierung:ereignis:lesen': Grundsätzlich zum Auslesen von Ereignissen benötigt
+            'baufinanzierung:echtgeschaeft': 'Baufinanzierung-Echtgeschäft bearbeiten, sonst sind nur Ereignisse zu Testvorgängen lesbar'
+            'partner:plakette:lesen': 'Darf Partner-Daten lesen, sonst sind werden nur PartnerIds ausgegeben'
+            'unterlagen:dokument:lesen': 'Dokumente lesen, sonst werden keine Dokumente ausgegeben'
+          tokenUrl: 'https://api.europace.de/auth/token'
   schemas:
     Partner:
       type: object
@@ -293,9 +331,8 @@ components:
           description: Beschreibung des Ereignisses
         typ:
           type: string
-          description: >
-            Der Typ des Ereignisses. Der Typ 'STATUS_AENDERUNG' betrifft
-            folgende Änderungen am Vorgang:
+          description: |
+            Der Typ des Ereignisses. Der Typ 'STATUS_AENDERUNG' betrifft folgende Änderungen am Vorgang:
                        * Angebot angenommen
                        * Geprüftes Angebot nicht akzeptiert
                        * Externe VorgangNummer gesetzt
@@ -306,7 +343,6 @@ components:
                        * Gegenangebot erstellt
                        * Antragstatus wurde geanedert
             Wenn der Typ 'DOKUMENTE' gesetzt ist, wird das Element 'dokumente'  mit ausgeliefert. Beim Typ 'ANTRAGSTATUS_AENDERUNG'
-
             das Element 'antragsStatus'.
           enum:
             - DOKUMENTE
@@ -321,14 +357,46 @@ components:
           format: date-time
           description: Zeitpunkt des Ereignisses
         quelle:
-          $ref: "#/components/schemas/Partner"
+          $ref: '#/components/schemas/Partner'
         dokumente:
           type: array
           items:
-            $ref: "#/components/schemas/Dokumente"
+            $ref: '#/components/schemas/Dokumente'
         antragsStatus:
-          $ref: "#/components/schemas/AntragsStatus"
+          $ref: '#/components/schemas/AntragsStatus'
       title: Ereignis
+      x-examples:
+        example-1:
+          vorgangsNummer: string
+          antragsNummer: string
+          meldung: string
+          typ: DOKUMENTE
+          zeitpunkt: '2019-08-24T14:15:22Z'
+          quelle:
+            partnerId: string
+            anrede: FRAU
+            nachname: string
+            vorname: string
+            externePartnerId: string
+          dokumente:
+            - name: string
+              geloescht: true
+              _links:
+                self:
+                  href: 'http://example.com'
+                  type: string
+                download:
+                  href: 'http://example.com'
+                  type: string
+                publicDownload:
+                  href: 'http://example.com'
+                  type: string
+          antragsStatus:
+            antragsteller: BEANTRAGT
+            produktAnbieter: NICHT_BEARBEITET
+            kommentar: string
+            ablehnungsgrund: FINANZIELLE_SITUATION
+            bearbeitungsFortschritt: NICHT_VON_PRODUKTANBIETER_BESTAETIGT
     Dokumente:
       type: object
       properties:
@@ -336,22 +404,20 @@ components:
           type: string
         geloescht:
           type: boolean
-          description: >
-            Wenn ein Dokument nach DSGVO-Richtlinien gelöscht wurde, dann wird
-            der Wert auf true gesetzt.
-            In diesem Fall werden keine Links ausgegeben. Für nicht gelöschte Dokumente ist dieser Wert nicht gesetzt.
+          description: |
+            Wenn ein Dokument nach DSGVO-Richtlinien gelöscht wurde, dann wird der Wert auf true gesetzt. In diesem Fall werden keine Links ausgegeben. Für nicht gelöschte Dokumente ist dieser Wert nicht gesetzt.
         _links:
-          $ref: "#/components/schemas/DokumentenLink"
+          $ref: '#/components/schemas/DokumentenLink'
     DokumentenLink:
       type: object
       properties:
         self:
-          $ref: "#/components/schemas/Relation"
+          $ref: '#/components/schemas/Relation'
         download:
-          $ref: "#/components/schemas/Relation"
+          $ref: '#/components/schemas/Relation'
           description: URL zum Runterladen des Dokuments (intern)
         publicDownload:
-          $ref: "#/components/schemas/Relation"
+          $ref: '#/components/schemas/Relation'
           description: URL zum Runterladen des Dokuments (öffentlich)
     Relation:
       type: object
@@ -362,7 +428,7 @@ components:
           description: A HAL Ref
         type:
           type: string
-          description: Media-Type nach https://tools.ietf.org/html/rfc6838.
+          description: 'Media-Type nach https://tools.ietf.org/html/rfc6838.'
     Error:
       type: object
       properties:
@@ -383,9 +449,9 @@ components:
       description: Der detaillierte Antragstatus
       properties:
         antragsteller:
-          $ref: "#/components/schemas/AntragstellerStatus"
+          $ref: '#/components/schemas/AntragstellerStatus'
         produktAnbieter:
-          $ref: "#/components/schemas/ProduktAnbieterStatus"
+          $ref: '#/components/schemas/ProduktAnbieterStatus'
         kommentar:
           type: string
         ablehnungsgrund:
