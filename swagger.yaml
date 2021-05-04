@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: API für Ereignisse in BaufiSmart-Vorgängen.
-  version: 2.0.0
+  version: 2.1.0
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -35,7 +35,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Ereignis'
-              examples: {}
+              examples: { }
         '401':
           description: |-
             Unauthorized
@@ -352,6 +352,7 @@ components:
             - KOMMUNIKATION
             - HINWEIS
             - EXPORT
+            - EIGENE_VORGANGSNUMMER
         zeitpunkt:
           type: string
           format: date-time
