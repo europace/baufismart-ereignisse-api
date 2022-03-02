@@ -1,50 +1,54 @@
 # Ereignisse-API
-Die API liefert die Ereignisse eines Vorgangs bzw. eines Antrags inkl. Zeitpunkt, Typ, Ersteller, Text und ggf. verlinkter Dokumente zurück.
+You can get all events of a case or application including timestamp, actors, type, link to documents and many more.
 
-![Vertrieb](https://img.shields.io/badge/-Vertrieb-lightblue)
-![Produktanbieter](https://img.shields.io/badge/-Produktanbieter-lightblue)
-![Baufinanzierung](https://img.shields.io/badge/-Baufinanzierung-lightblue)
-![Privatkredit](https://img.shields.io/badge/-Privatkredit-lightblue)
+![advisor](https://img.shields.io/badge/-advisor-lightblue)
+![loanProvider](https://img.shields.io/badge/-loanProvider-lightblue)
+![mortgageLoan](https://img.shields.io/badge/-mortgageLoan-lightblue)
+![consumerLoan](https://img.shields.io/badge/-consumerLoan-lightblue)
 
 [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://github.com/europace/authorization-api)
 [![GitHub release](https://img.shields.io/github/v/release/europace/baufismart-ereignisse-api)](https://github.com/europace/baufismart-ereignisse-api/releases)
 
 [![Pattern](https://img.shields.io/badge/Pattern-Tolerant%20Reader-yellowgreen)](https://martinfowler.com/bliki/TolerantReader.html)
 
-## Dokumentation
+## Documentation
 [![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufismart-ereignisse-api/gh-pages/index.html)
 [![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufismart-ereignisse-api/master/swagger.yaml)
 
-## Anwendungsfälle der API
-- Anzeige der Ereignisse in einem CRM-System oder einer App
-- detaillierte zeitliche und inhaltliche Analysen zur Bearbeitung des Vorgangs
+## Usecases
+- display events in a CRM system or app
+- detailed analyses of time and content for processing the case
 
-# Schnellstart
-Damit du unsere APIs und deinen Anwendungsfall schnellstmöglich testen kannst, haben wir eine [Postman-Collection](https://docs.api.europace.de/baufinanzierung/schnellstart/) für dich zusammengestellt.
+## Requirements
+- authenticated as loan provider
 
-### Authentifizierung
-Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/), um Zugang zur API bekommen. Um die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
+## Quick Start
+To test our APIs and your use cases as quickly as possible, we have created a [Postman Collection](https://github.com/europace/api-quickstart) for you.
+
+### Authentication
+Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/common/authentifizierung/authorization-api/) to get access to the APIs. The OAuth2 client requires the following scopes:
 
 | Scope                                  | API Usecase                                   |
 |----------------------------------------|-----------------------------------------------|
-| `baufinanzierung:ereignis:lesen`       | Grundsätzlich zum Auslesen von Ereignissen benötigt |
-| `baufinanzierung:echtgeschaeft`        | sonst sind nur Ereignisse zu Testvorgängen lesbar |
-| `partner:plakette:lesen`               | sonst werden nur `PartnerIds` ausgegeben      |
-| `unterlagen:dokument:lesen`            | sonst werden keine Dokumente ausgegeben       |
+| `baufinanzierung:echtgeschaeft`        | to use api in production mode                 |
+| `baufinanzierung:ereignis:lesen`       | to get event information                      |
+| `partner:plakette:lesen`               | to get partner information                    |
+| `unterlagen:dokument:lesen`            | to get documents                              |
 
 
-## Beispiel: Ereignisse zu einem Vorgang auslesen
+## Get events of a case
 
-Request:
-``` cURL
-curl -X GET \
-  'https://baufismart.api.europace.de/v2/ereignisse/DM2902' \
-  -H 'Authorization: Bearer eyJj...GVkA' \
-  -H 'X-TraceID: myTest123' \
-  -H 'cache-control: no-cache'
+As advisor you can get all events of case to get an overview for the last actions.
+
+example-request:
+``` http
+GET /v2/ereignisse/CH6407 HTTP/1.1
+Host: baufismart.api.europace.de
+Content-Type: application/json
+Authorization: Bearer {{access-token}}
 ```
 
-Response: \
+example-response: \
 [siehe API-Spezifikation](https://europace.github.io/baufismart-ereignisse-api/gh-pages/index.html#get-/ereignisse/-vorgangsNummer-)
 
 ``` json
@@ -118,9 +122,11 @@ Response: \
     }
 ```
 
-## Beispiel: Ereignisse zu einem Antrag auslesen
+## Get events of an application
 
-Request:
+As loan officer you can get all events of application to get an overview for the last actions.
+
+example-request:
 ``` cURL
 curl -X GET \
   'https://baufismart.api.europace.de/v2/ereignisse/DM2902/1/1' \
@@ -129,12 +135,11 @@ curl -X GET \
   -H 'cache-control: no-cache'
 ```
 
-Response: \
+example-response: \
 [siehe API-Spezifikation](https://europace.github.io/baufismart-ereignisse-api/gh-pages/index.html#get-/ereignisse/-vorgangsNummer-/-antragsNummer-/-teilAntragsNummer-)
 
+## Terms of use
+The APIs are provided under the following [Terms of Use](https://docs.api.europace.de/nutzungsbedingungen).
 
 ## Support
-Bei Fragen oder Problemen kannst du dich an devsupport@europace2.de wenden.
-
-## Nutzungsbedingungen
-Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
+If you have any questions or problems, you can contact devsupport@europace2.de.

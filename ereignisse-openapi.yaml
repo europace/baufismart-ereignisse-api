@@ -1,29 +1,29 @@
 openapi: 3.0.0
 info:
-  description: API für Ereignisse in BaufiSmart-Vorgängen.
+  description: You can get all events of a case or application including timestamp, actors, type, link to documents and many more.
   version: 2.0.0
   title: Ereignisse API
   contact:
     name: Europace AG
-    url: 'http://www.europace2.de'
+    url: 'https://docs.api.europace.de/baufinanzierung/ereignisse_vorg/'
     email: helpdesk@europace2.de
 tags:
-  - name: Vorgangsereignisse
-    description: Diese Endpunkte repräsentieren die Vertriebssicht auf einen Baufismart Vorgang.
-  - name: Antragsereignisse
-    description: Diese Endpunkte repräsentieren die Kreditentscheidersicht auf einen Baufismart Antrag.
+  - name: events of case
+    description: all events for advisor
+  - name: events of application
+    description: all events for loan officer
 paths:
   /ereignisse:
     get:
       tags:
-        - Vorgangsereignisse
-      summary: alle Ereignisse eines Vorgangs abrufen
-      description: 'Dieser Endpunkt ist für Vertriebsorganisiationen gedacht, die Zugriff auf den Vorgang haben. Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart erzeugt wurde. '
+        - events of case
+      summary: get events for case
+      description: 'As advisor you can get all events of case to get an overview for the last actions.'
       operationId: getEreignisseByVorgang
       parameters:
         - name: vorgangsNummer
           in: query
-          description: Nummer des Vorgangs
+          description: case-id
           schema:
             type: string
       responses:
@@ -35,11 +35,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Ereignis'
-              examples: {}
         '401':
           description: |-
             Unauthorized
-            Authentifizierung ist fehlgeschlagen
+            no valid token
           content:
             application/json;charset=UTF-8:
               schema:
@@ -48,7 +47,6 @@ paths:
           description: |-
             Forbidden
             Insufficient access rights
-            Es wird versucht auf eine Ressource zuzugreifen, die die Vertriebsorganisation nicht lesen darf
           content:
             application/json;charset=UTF-8:
               schema:
@@ -56,7 +54,6 @@ paths:
         '404':
           description: |-
             Not Found
-            Es wird versucht auf eine nicht existierende Ressource zuzugreifen
           content:
             application/json;charset=UTF-8:
               schema:
@@ -76,7 +73,6 @@ paths:
         '502':
           description: |-
             Bad Gateway
-            Das Anfrageformat ist ungültig.
           content:
             application/json;charset=UTF-8:
               schema:
@@ -84,7 +80,6 @@ paths:
         '503':
           description: |-
             Service Unavailable
-            Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar
           content:
             application/json;charset=UTF-8:
               schema:
@@ -104,14 +99,14 @@ paths:
   '/ereignisse/{vorgangsNummer}':
     get:
       tags:
-        - Vorgangsereignisse
-      summary: alle Ereignisse eines Vorgangs abrufen
-      description: 'Dieser Endpunkt ist für Vertriebsorganisiationen gedacht, die Zugriff auf den Vorgang haben. Als Parameter wird die Vorgangsnummer verwendet, die aus BaufiSmart erzeugt wurde. '
+        - events of case
+      summary: get events of case
+      description: 'As advisor you can get all events of case to get an overview for the last actions.'
       operationId: getEreignisse
       parameters:
         - name: vorgangsNummer
           in: path
-          description: Nummer des Vorgangs
+          description: case-id
           required: true
           schema:
             type: string
@@ -127,7 +122,7 @@ paths:
         '401':
           description: |-
             Unauthorized
-            Authentifizierung ist fehlgeschlagen
+            no valid token
           content:
             application/json;charset=UTF-8:
               schema:
@@ -135,7 +130,6 @@ paths:
         '403':
           description: |-
             Forbidden
-            Es wird versucht auf eine Ressource zuzugreifen, die der Client nicht lesen darf
           content:
             application/json;charset=UTF-8:
               schema:
@@ -143,7 +137,6 @@ paths:
         '404':
           description: |-
             Not Found
-            Es wird versucht auf eine nicht existierende Ressource zuzugreifen
           content:
             application/json;charset=UTF-8:
               schema:
@@ -169,7 +162,6 @@ paths:
         '503':
           description: |-
             Service Unavailable
-            Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar
           content:
             application/json;charset=UTF-8:
               schema:
@@ -189,28 +181,26 @@ paths:
   '/ereignisse/{vorgangsNummer}/{antragsNummer}/{teilAntragsNummer}':
     get:
       tags:
-        - Antragsereignisse
-      summary: alle Ereignisse eines Antrags abrufen
-      description: |-
-        Dieser Endpunkt ist für Produtkanbieter gedacht, die Zugriff auf den Antrag haben. Es werden nur die Ereignisse des Antrags geliefert, nicht die des Vorgangs. Als Vertrieb erhalte ich hier keine Ereignisse, sondern den Fehlercode 403. 
-        Als Parameter wird die Vorgangsnummer, die Antragsnummer und die TeilAntragsnummer verwendet, die aus BaufiSmart erzeugt wurde. Bsp: AB1234/1/2.
+        - events of application
+      summary: get events of application
+      description: 'As loan officer you can get all events of application to get an overview for the last actions.'
       operationId: getAntragsEreignisse
       parameters:
         - name: vorgangsNummer
           in: path
-          description: Nummer des Vorgangs
+          description: case-id
           required: true
           schema:
             type: string
         - name: antragsNummer
           in: path
-          description: Antragsnummer
+          description: iteratorSolution
           required: true
           schema:
             type: string
         - name: teilAntragsNummer
           in: path
-          description: Teilantragsnummer
+          description: iteratorApplication
           required: true
           schema:
             type: string
@@ -226,7 +216,6 @@ paths:
         '401':
           description: |-
             Unauthorized
-            Authentifizierung ist fehlgeschlagen
           content:
             application/json;charset=UTF-8:
               schema:
@@ -234,7 +223,6 @@ paths:
         '403':
           description: |-
             Forbidden
-            Es wird versucht auf eine Ressource zuzugreifen, die der Client nicht lesen darf
           content:
             application/json;charset=UTF-8:
               schema:
@@ -242,7 +230,6 @@ paths:
         '404':
           description: |-
             Not Found
-            Es wird versucht auf eine nicht existierende Ressource zuzugreifen
           content:
             application/json;charset=UTF-8:
               schema:
@@ -268,7 +255,6 @@ paths:
         '503':
           description: |-
             Service Unavailable
-            Informationen zu Partner, Dokumenten oder dem Vorgang sind aktuell nicht verfügbar
           content:
             application/json;charset=UTF-8:
               schema:
@@ -294,10 +280,10 @@ components:
       flows:
         clientCredentials:
           scopes:
-            'baufinanzierung:ereignis:lesen': Grundsätzlich zum Auslesen von Ereignissen benötigt
-            'baufinanzierung:echtgeschaeft': 'Baufinanzierung-Echtgeschäft bearbeiten, sonst sind nur Ereignisse zu Testvorgängen lesbar'
-            'partner:plakette:lesen': 'Darf Partner-Daten lesen, sonst sind werden nur PartnerIds ausgegeben'
-            'unterlagen:dokument:lesen': 'Dokumente lesen, sonst werden keine Dokumente ausgegeben'
+            'baufinanzierung:ereignis:lesen': 'to get event information'
+            'baufinanzierung:echtgeschaeft': 'to use api in production mode'
+            'partner:plakette:lesen': 'to get partner information'
+            'unterlagen:dokument:lesen': 'to get documents'
           tokenUrl: 'https://api.europace.de/auth/token'
   schemas:
     Partner:
@@ -305,45 +291,52 @@ components:
       properties:
         partnerId:
           type: string
+          description: Europace partner identifier
         anrede:
           type: string
+          description: salutation
           enum:
             - FRAU
             - HERR
         nachname:
           type: string
+          description: surname
         vorname:
           type: string
+          description: first name
         externePartnerId:
           type: string
+          description: own partner reference
       title: Partner
+      description: actor of event
     Ereignis:
       type: object
       properties:
         vorgangsNummer:
           type: string
-          description: Die Vorgangsnummer
+          description: case-id
         antragsNummer:
           type: string
-          description: Die Antragsnummer
+          description: application-id
         meldung:
           type: string
-          description: Beschreibung des Ereignisses
+          description: message text
         typ:
           type: string
           description: |
-            Der Typ des Ereignisses. Der Typ 'STATUS_AENDERUNG' betrifft folgende Änderungen am Vorgang:
-                       * Angebot angenommen
-                       * Geprüftes Angebot nicht akzeptiert
-                       * Externe VorgangNummer gesetzt
-                       * Bearbeiter geändert
-                       * Kundenbetreuer geändert
-                       * Tippgeber geändert
-                       * Bearbeitungsdatum aktualisiert
-                       * Gegenangebot erstellt
-                       * Antragstatus wurde geanedert
-            Wenn der Typ 'DOKUMENTE' gesetzt ist, wird das Element 'dokumente'  mit ausgeliefert. Beim Typ 'ANTRAGSTATUS_AENDERUNG'
-            das Element 'antragsStatus'.
+            event type. 
+            Type 'STATUS_AENDERUNG' is related to the following changes on the case:
+                       * offer accepted
+                       * approved offer not accepted
+                       * own case reference set
+                       * editor set
+                       * advisor set
+                       * tipster set
+                       * date of estimated approval set
+                       * counteroffer created
+                       * state has changed
+            If type 'DOKUMENTE', the element 'dokumente' will be present. 
+            If type 'ANTRAGSTATUS_AENDERUNG' the element 'antragsStatus' will be present.
           enum:
             - DOKUMENTE
             - STATUS_AENDERUNG
@@ -355,9 +348,10 @@ components:
         zeitpunkt:
           type: string
           format: date-time
-          description: Zeitpunkt des Ereignisses
+          description: timestamp of event
         quelle:
           $ref: '#/components/schemas/Partner'
+          description: actor of event
         dokumente:
           type: array
           items:
@@ -402,10 +396,11 @@ components:
       properties:
         name:
           type: string
+          description: document name
         geloescht:
           type: boolean
           description: |
-            Wenn ein Dokument nach DSGVO-Richtlinien gelöscht wurde, dann wird der Wert auf true gesetzt. In diesem Fall werden keine Links ausgegeben. Für nicht gelöschte Dokumente ist dieser Wert nicht gesetzt.
+            If a document has been deleted according to GDPR guidelines, then the value is set to true. In this case, no links are output. For non-deleted documents, this value is not set.
         _links:
           $ref: '#/components/schemas/DokumentenLink'
     DokumentenLink:
@@ -415,20 +410,20 @@ components:
           $ref: '#/components/schemas/Relation'
         download:
           $ref: '#/components/schemas/Relation'
-          description: URL zum Runterladen des Dokuments (intern)
+          description: internal download url
         publicDownload:
           $ref: '#/components/schemas/Relation'
-          description: URL zum Runterladen des Dokuments (öffentlich)
+          description: public download url
     Relation:
       type: object
       properties:
         href:
           type: string
           format: uri
-          description: A HAL Ref
+          description: link to ressource
         type:
           type: string
-          description: 'Media-Type nach https://tools.ietf.org/html/rfc6838.'
+          description: 'media-type according to https://tools.ietf.org/html/rfc6838.'
     Error:
       type: object
       properties:
@@ -446,7 +441,7 @@ components:
       title: Error
     AntragsStatus:
       type: object
-      description: Der detaillierte Antragstatus
+      description: state of application
       properties:
         antragsteller:
           $ref: '#/components/schemas/AntragstellerStatus'
@@ -456,7 +451,7 @@ components:
           type: string
         ablehnungsgrund:
           type: string
-          description: Ablehnungsgrund des Produktanbieters
+          description: reason for rejection
           enum:
             - FINANZIELLE_SITUATION
             - NEGATIV_MERKMAL
@@ -467,7 +462,7 @@ components:
             - KEINE_ANGABE
         bearbeitungsFortschritt:
           type: string
-          description: Bearbeitungsfortschritt des Antrags nach beidseitiger Unterzeichnung
+          description: application progress after signing by both parties
           enum:
             - NICHT_VON_PRODUKTANBIETER_BESTAETIGT
             - VON_PRODUKTANBIETER_BESTAETIGT
@@ -476,6 +471,7 @@ components:
             - PROVISON_AN_KUNDENBETREUER_VOLLSTAENDIG_AUSGEZAHLT
     ProduktAnbieterStatus:
       type: string
+      description: state of loan provider
       enum:
         - NICHT_BEARBEITET
         - UNTERSCHRIEBEN
@@ -483,6 +479,7 @@ components:
         - ZURUECKGESTELLT
     AntragstellerStatus:
       type: string
+      description: state of customer
       enum:
         - BEANTRAGT
         - UNTERSCHRIEBEN
