@@ -13,7 +13,7 @@ You can get all events of a case or application including timestamp, actors, typ
 
 ## Documentation
 [![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufismart-ereignisse-api/gh-pages/index.html)
-[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufismart-ereignisse-api/master/swagger.yaml)
+[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufismart-ereignisse-api/master/ereignisse-openapi.yaml)
 
 ## Usecases
 - display events in a CRM system or app
