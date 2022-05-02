@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: You can get all events of a case or application including timestamp, actors, type, link to documents and many more.
-  version: 2.0.0
+  version: 2.1.0
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -345,6 +345,68 @@ components:
             - KOMMUNIKATION
             - HINWEIS
             - EXPORT
+        aktivitaet:
+          type: string
+          description: |
+            detailed information about the trigger of the event
+          enum:
+            - EREIGNIS_OHNE_AKTIVITAET
+            - VORGANG_ANGELEGT
+            - ANFRAGE_GESENDET
+            - ANFRAGE_EINGEGANGEN
+            - ANGEBOT_ANGENOMMEN
+            - GEPRUEFTES_ANGEBOT_NICHT_AKZEPTIERT
+            - ANTRAG_EINGEGANGEN
+            - STATUSAENDERUNG_ANTRAG
+            - STATUSAENDERUNG_ANFRAGE
+            - GEGENANGEBOT
+            - DSL_FALL_EINGEGANGEN
+            - VERTRAGSABSCHLUSS_BESTAETIGT
+            - VERTRAGSABSCHLUSS_WIDERSPROCHEN
+            - VORGANG_GESCHLOSSEN
+            - VORGANG_AKTIVIERT
+            - EXTERNE_VORGANGSNUMMER_GESETZT
+            - DIBA_VORGANGSNUMMER_GEAENDERT
+            - VORGANGSNUMMER_DURCH_PA_GEAENDERT
+            - EXPORT_NACH_CLASSIC
+            - EXPORT_NACH_CLASSIC_FEHLGESCHLAGEN
+            - EXPORT_NACH_KREDIT_SMART
+            - BEARBEITUNGSDATUM_AKTUALISIERT
+            - BEARBEITER_GEAENDERT
+            - KSB_GEAENDERT
+            - KSB_GEAENDERT_FUER_ANFRAGE
+            - KUNDENBETREUER_GEAENDERT
+            - TIPPGEBER_GEAENDERT
+            - PROLONGATIONSANGEBOT_ERSTELLT
+            - FINANZIERUNGSVORSCHLAG_VERSENDET
+            - FINANZIERUNGSVORSCHLAG_AUSGEHAENDIGT
+            - ANNAHMEINFORMATIONSMAIL_VERSENDET
+            - ANNAHMEINFORMATIONSMAIL_ERNEUT_VERSENDET
+            - DATENSCHUTZKLAUSEL_UNTERSCHRIEBEN
+            - SELBSTAUSKUNFT_ERSTELLT
+            - VORVERTRAGLICHE_INFORMATIONEN_ERSTELLT
+            - SCHUFA_AUSKUNFT_EINGEHOLT
+            - DOKUMENT_HOCHGELADEN
+            - DOKUMENT_ERSTELLT
+            - DOKUMENTE_FUER_VERTRIEB_FREIGEGEBEN
+            - DOKUMENTE_FUER_PA_FREIGABE_INITIIERT
+            - DOKUMENTE_FUER_PA_FREIGEGEBEN
+            - ANFRAGE_DOKUMENTE_FUER_PA_FREIGEGEBEN
+            - DOKUMENTE_FUER_DIBA_FREIGEGEBEN
+            - TECHNISCHER_FEHLER_BEI_DOKUMENTENFREIGABE_FUER_DIBA
+            - ANSCHREIBEN_AN_PA_ERZEUGT
+            - PROVISIONSREDUZIERUNG
+            - PROVISION_FUER_SAMMELFORDERUNG_FREIGEGEBEN
+            - SPERRE_GEGEN_BEARBEITERWECHSEL_GESETZT
+            - SPERRE_GEGEN_BEARBEITERWECHSEL_AUFGEHOBEN
+            - NACHRICHT_ZUM_ANTRAG
+            - KOMMENTAR
+            - EIGENE_VORGANGSNUMMER_GESETZT
+            - PRIOTITAET_GEAENDERT
+            - WIEDERVORLAGE_ANGELEGT
+            - WIEDERVORLAGE_ENTFERNT
+            - HINWEIS
+            - ERFASSTE_DATEN_GEAENDERT
         zeitpunkt:
           type: string
           format: date-time
