@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: You can get all events of a case or application including timestamp, actors, type, link to documents and many more.
-  version: 2.1.0
+  version: 2.2.0
   title: Ereignisse API
   contact:
     name: Europace AG
@@ -345,6 +345,7 @@ components:
             - KOMMUNIKATION
             - HINWEIS
             - EXPORT
+            - UNTERLAGENBESTELLUNG
         aktivitaet:
           type: string
           description: |
@@ -407,6 +408,9 @@ components:
             - WIEDERVORLAGE_ENTFERNT
             - HINWEIS
             - ERFASSTE_DATEN_GEAENDERT
+            - UNTERLAGENBESTELLUNG_AUSGELÖST
+            - UNTERLAGENBESTELLUNG_FEHLGESCHLAGEN
+            - UNTERLAGENBESTELLUNG_ERFOLGREICH
         zeitpunkt:
           type: string
           format: date-time
