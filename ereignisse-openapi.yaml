@@ -407,6 +407,9 @@ components:
             - WIEDERVORLAGE_ENTFERNT
             - HINWEIS
             - ERFASSTE_DATEN_GEAENDERT
+            - UNTERLAGENBESTELLUNG_AUSGELOEST
+            - UNTERLAGENBESTELLUNG_ZAHLUNGSAUFFORDERUNG_VERSENDET
+            - OBJEKTWERTINDIKATION_ERSTELLT
         zeitpunkt:
           type: string
           format: date-time
