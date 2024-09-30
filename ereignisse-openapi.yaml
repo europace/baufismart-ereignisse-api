@@ -345,6 +345,7 @@ components:
             - KOMMUNIKATION
             - HINWEIS
             - EXPORT
+            - LINK
         aktivitaet:
           type: string
           description: |
@@ -421,6 +422,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dokumente'
+        link:
+          $ref: '#/components/schemas/Link'
         antragsStatus:
           $ref: '#/components/schemas/AntragsStatus'
       title: Ereignis
@@ -550,3 +553,12 @@ components:
         - UNTERSCHRIEBEN
         - NICHT_ANGENOMMEN
         - WIDERRUFEN
+    Link:
+      type: object
+      description: contents of the LINK type event
+      properties:
+        url:
+          type: string
+          format: uri
+        linkText:
+          type: string
