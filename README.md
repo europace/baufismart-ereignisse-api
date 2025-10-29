@@ -43,7 +43,7 @@ As advisor you can get all events of case to get an overview for the last action
 example-request:
 ``` http
 GET /v2/ereignisse/CH6407 HTTP/1.1
-Host: baufismart.api.europace.de
+Host: baufinanzierung.api.europace.de
 Content-Type: application/json
 Authorization: Bearer {{access-token}}
 ```
@@ -129,7 +129,7 @@ As loan officer you can get all events of application to get an overview for the
 example-request:
 ``` cURL
 curl -X GET \
-  'https://baufismart.api.europace.de/v2/ereignisse/DM2902/1/1' \
+  'https://baufinanzierung.api.europace.de/v2/ereignisse/DM2902/1/1' \
   -H 'Authorization: Bearer eyJj...GVkA' \
   -H 'X-TraceID: myTest123' \
   -H 'cache-control: no-cache'

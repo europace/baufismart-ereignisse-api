@@ -272,7 +272,7 @@ paths:
             - 'partner:plakette:lesen'
             - 'unterlagen:dokument:lesen'
 servers:
-  - url: 'https://baufismart.api.europace.de/v2'
+  - url: 'https://baufinanzierung.api.europace.de/v2'
 components:
   securitySchemes:
     oauth2:
